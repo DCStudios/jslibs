@@ -178,7 +178,7 @@ var Transition;
     Transition.prototype.onAnchorClick = function( ev ) {
         ev.preventDefault();
 
-        var a = $(ev.target);
+        var a = $(ev.delegateTarget);
         a.off( "click" );
         a.on( "click", this.fakeOnClick );
         $.ajax({
@@ -192,7 +192,7 @@ var Transition;
     Transition.prototype.onFormSubmit = function( ev ) {
         ev.preventDefault();
 
-        var form = $(ev.target);
+        var form = $(ev.delegateTarget);
         $.ajax({
             url: form.attr("action"),
             type: form.attr("method"),
