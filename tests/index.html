@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Transitions Tests - Page 1</title>
+        <meta charset="UTF-8">
+
+        <link rel="stylesheet" href="css/reset.css" type="text/css" />
+        <link rel="stylesheet" href="css/styles.css" type="text/css" />
+        <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript" src="../libs/transitions.js"></script>
+    </head>
+    <body>
+        <div id="transition-container">
+
+            <div id="page">
+                <h1>Page 1</h1>
+                <p>This is the page 1 to test transitions.</p>
+                <span class="footer"><p><a href="index.html">Just Hoping it works</a>...</p></span>
+            </div>
+
+        </div>
+
+        <script type="text/javascript">
+            DefineTransition( "transition-container", {
+                "intro": 800,
+                "exit": 800,
+                "class": "is-exiting",
+                "introCompleted": function() { console.log( "Intro has completed!" ); },
+                "exitCompleted": function() { console.log( "Exit has completed!" ); },
+                "loadNextPage": function() {
+                    console.log( "Loading next page..." );
+                    $("#page").html( "<h1>Loading...</h1>" );
+                },
+                "loadCompleted": function(){ console.log( "Load completed!" ); }
+            });
+        </script>
+    </body>
+</html>
