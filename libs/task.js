@@ -6,6 +6,7 @@ var DefineTask;
 
 		$( taskContainer ).each( function(i,e) {
 			var $taskContainer = $(e);
+			var $createTaskListModal;
 
 			$taskContainer.html(
 				'<div class="createTaskListModal" title="Create new TaskList">'+
@@ -21,21 +22,26 @@ var DefineTask;
 		        '</div>'+
 				'<div class="createTaskListButton">+</div>'+
 				$taskContainer.html() +
-				'<div style="clear:both;"></div>'
+				'<div class="dummy" style="clear:both;"></div>'
 			);
 
-			$taskContainer.find(".taskList").sortable({
-				placeholder: "taskPlaceholder",
-				helper: "clone",
-				cursorAt: { left: 64, top: 16 },
-				connectWidth: ".taskList"
-			});
-
+			// TODO: FIX LIST CONNECTION PROBLEM
 			$taskContainer.find( "form" ).each( function( fi,fe) {
 				$form = $(fe);
 				$form.off("submit").on("submit", function(evt){
 					evt.preventDefault();
-					console.log( "Create new TaskList '"+$form.find(".tasklistName").val()+"'" );
+					$form.closest(".createTaskListModal").dialog("close");
+					var $tasklist = $("<div><div class='task'>lalala</div></div>")
+						.attr("class","taskList")
+						.attr("data-category", $form.find(".tasklistName").val() )
+						.insertBefore( $taskContainer.find(".dummy") )
+						.sortable({
+							placeholder: "taskPlaceholder",
+							dropOnEmpty: true,
+							helper: "clone",
+							cursorAt: { left: 64, top: 16 },
+							connectWidth: "taskList"
+						});
 				});
 			});
 
@@ -46,11 +52,14 @@ var DefineTask;
 				modal: true,
 				buttons: {
 					"Create TaskList": function() {
-						console.log( "Creating tasklist '"+$(".tasklistName",$createTaskListModal).val()+"'" );
-						$createTaskListModal.dialog( "close" );
+						$createTaskListModal.find( "form" ).submit();
 					},
 					Cancel: function(){ $createTaskListModal.dialog( "close" ); }
 				}
+			});
+
+			$taskContainer.find(".createTaskListButton").on("click", function(){
+				$createTaskListModal.dialog("open")
 			});
 		});
 

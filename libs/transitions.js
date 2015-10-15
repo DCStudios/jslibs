@@ -13,8 +13,6 @@ var Transition;
 
     };
 
-    // TODO: Bind the forms
-
     Transition = function( container, options ) {
 
         /**
