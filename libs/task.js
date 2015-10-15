@@ -2,8 +2,8 @@ var DefineTask;
 
 ( function() {
 
-	DefineTask = function() {
-		
+	DefineTask = function( taskContainerID ) {
+
 	};
 
 })();

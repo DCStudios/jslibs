@@ -6,8 +6,13 @@
 
         <link rel="stylesheet" href="css/reset.css" type="text/css" />
         <link rel="stylesheet" href="css/styles.css" type="text/css" />
+		<link rel="stylesheet" href="css/jquery-ui.min.css">
+		<link rel="stylesheet" href="css/jquery-ui.structure.min.css">
+		<link rel="stylesheet" href="css/jquery-ui.theme.min.css">
         <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
         <script type="text/javascript" src="../libs/transitions.js"></script>
+		<script type="text/javascript" src="../libs/task.js"></script>
     </head>
     <body>
         <div id="transition-container">
@@ -15,7 +20,24 @@
             <div id="page">
                 <h1>Page 1</h1>
                 <p>This is the page 1 to test transitions.</p>
-				<div id="tasks"></div>
+				<div id="tasks">
+					<div class="taskList">
+						<div class="task sortable">
+							<h1 class="task-name">Sample Task</h1>
+							<p class="task-content">This is a sample task!</p>
+						</div>
+					</div>
+					<div class="taskList">
+						<div class="task sortable">
+							<h1 class="task-name">TODO</h1>
+							<p class="task-content">Create a new website</p>
+						</div>
+						<div class="task sortable">
+							<h1 class="task-name">Doing</h1>
+							<p class="task-content">Creating task.js</p>
+						</div>
+					</div>
+				</div>
                 <form action='index.html' method='get'>
                     <label>Name:</label><input type="text" name="username" /><br>
                     <label>Password:</label><input type="password" name="password" /><br>
@@ -39,6 +61,12 @@
                 },
                 "loadCompleted": function(){ console.log( "Load completed!" ); }
             });
+
+			$( "#tasks .taskList" ).sortable({
+				placeholder: "taskPlaceholder",
+				helper: "clone",
+				connectWith: ".taskList"
+			});
         </script>
     </body>
 </html>

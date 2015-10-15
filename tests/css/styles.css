@@ -1,58 +1,125 @@
 body {
   background: #222;
   color: #CCC;
-  font-family: Verdana, sans-serif; }
-  body h1 {
-    font-size: 32pt;
-    font-weight: 700;
-    line-height: 1.5em; }
-  body p {
-    font-size: 16pt;
-    font-weight: 400; }
-  body a {
-    color: #666;
-    text-decoration: none; }
+  font-family: Verdana, sans-serif;
+}
+body h1 {
+  font-size: 32pt;
+  font-weight: 700;
+  line-height: 1.5em;
+}
+body p {
+  font-size: 16pt;
+  font-weight: 400;
+}
+body a {
+  color: #666;
+  text-decoration: none;
+}
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translate(-256px, 0); }
+    transform: translate(-256px, 0);
+  }
   to {
     opacity: 1;
-    transform: translate(0, 0); } }
+    transform: translate(0, 0);
+  }
+}
 @keyframes fadeOut {
   from {
     opacity: 1;
-    transform: translate(0, 0); }
+    transform: translate(0, 0);
+  }
   to {
     opacity: 0;
-    transform: translate(256px, 0); } }
-  body #transition-container {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    overflow: hidden; }
-    body #transition-container #page {
-      position: absolute;
-      left: 64px;
-      top: 64px;
-      right: 64px;
-      bottom: 64px;
-      border: 2px solid #000;
-      background: #111;
-      padding: 64px;
-      animation: fadeIn 800ms ease-in-out; }
-      body #transition-container #page .footer {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        padding-right: 16px;
-        padding-bottom: 16px; }
-        body #transition-container #page .footer p {
-          font-size: 14pt;
-          font-style: italic; }
-    body #transition-container.is-exiting #page {
-      animation: fadeOut 800ms ease-in-out; }
+    transform: translate(256px, 0);
+  }
+}
+body #transition-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+body #transition-container #page {
+  position: absolute;
+  left: 64px;
+  top: 64px;
+  right: 64px;
+  bottom: 64px;
+  border: 2px solid #000;
+  background: #111;
+  padding: 64px;
+  animation: fadeIn 800ms ease-in-out;
+}
+body #transition-container #page #tasks {
+  background: #333;
+  margin: 16px;
+  border: 1px solid #AAA;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+}
+body #transition-container #page #tasks .taskList {
+  margin: 8px;
+  float: left;
+  width: 256px;
+  min-height: 512px;
+  background: #222;
+  border: 1px solid #000;
+}
+body #transition-container #page #tasks .taskList .task {
+  display: block;
+  margin: 4px;
+  width: 248px;
+  min-height: 128px;
+  background: #000;
+  border: 1px solid #888;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+body #transition-container #page #tasks .taskList .task .task-name {
+  font-size: 18pt;
+  font-family: Tahoma;
+  font-weight: 400;
+  background: #222;
+  border-bottom: 1px solid #AAA;
+  padding-left: 4px;
+}
+body #transition-container #page #tasks .taskList .task .task-content {
+  font-size: 12pt;
+  font-family: Verdana;
+  font-weight: 400;
+  padding: 4px;
+}
+body #transition-container #page #tasks .taskList .task:hover {
+  cursor: pointer;
+}
+body #transition-container #page #tasks .taskList .task.ui-sortable-helper {
+  cursor: move;
+  border: 3px solid #AAA;
+  background: #222;
+}
+body #transition-container #page #tasks .taskList .taskPlaceholder {
+  display: block;
+  margin: 4px;
+  background: #113;
+  width: 248px;
+  height: 64px;
+}
+body #transition-container #page .footer {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding-right: 16px;
+  padding-bottom: 16px;
+}
+body #transition-container #page .footer p {
+  font-size: 14pt;
+  font-style: italic;
+}
+body #transition-container.is-exiting #page {
+  animation: fadeOut 800ms ease-in-out;
+}
 
 /*# sourceMappingURL=styles.css.map */

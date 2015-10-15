@@ -51,6 +51,63 @@ body {
             padding: 64px;
             animation: fadeIn 800ms ease-in-out;
 
+			#tasks {
+				background: #333;
+				margin: 16px;
+				border: 1px solid #AAA;
+				box-shadow: 4px 4px 8px rgba( 0,0,0,0.5 );
+
+				.taskList {
+					margin: 8px;
+					float:left;
+					width: 256px;
+					min-height: 512px;
+					background: #222;
+					border: 1px solid #000;
+
+					.task {
+						display: block;
+						margin: 4px;
+						width: 248px;
+						min-height: 128px;
+						background: #000;
+						border: 1px solid #888;
+						box-shadow: 2px 2px 4px rgba( 0,0,0,0.5 );
+
+						.task-name {
+							font-size: 18pt;
+							font-family: Tahoma;
+							font-weight: 400;
+							background: #222;
+							border-bottom: 1px solid #AAA;
+							padding-left: 4px;
+						}
+
+						.task-content {
+							font-size: 12pt;
+							font-family: Verdana;
+							font-weight: 400;
+							padding: 4px;
+						}
+
+						&:hover { cursor:pointer; }
+						&.ui-sortable-helper {
+							cursor: move;
+							border: 3px solid #AAA;
+							background: #222;
+						}
+					}
+
+					.taskPlaceholder {
+						display: block;
+						margin: 4px;
+						background: #113;
+						width: 248px;
+						height: 64px;
+					}
+				}
+			}
+
             .footer {
                 position: absolute;
                 bottom: 0;
