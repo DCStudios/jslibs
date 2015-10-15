@@ -51,20 +51,58 @@ body {
             padding: 64px;
             animation: fadeIn 800ms ease-in-out;
 
-			#tasks {
-				background: #333;
+			.taskcontainer {
+                position: relative;
+                background: #333;
 				margin: 16px;
+                padding-left: 56px;
 				border: 1px solid #AAA;
 				box-shadow: 4px 4px 8px rgba( 0,0,0,0.5 );
 
+                .createTaskListButton {
+                    position: absolute;
+                    left: 4px;
+                    top: 4px;
+                    width: 48px;
+                    height: 48px;
+                    background: #000;
+                    border: 1px solid #555;
+                    line-height: 48px;
+                    text-align: center;
+                    -webkit-user-select: none;
+                    -moz-user-select: none;
+                    -o-user-select: none;
+                    user-select: none;
+                    cursor: pointer;
+                    &:hover{ background: #222; }
+                    &:active{ border-color: #000; }
+                }
+
 				.taskList {
-					margin: 8px;
+                    position: relative;
+                    margin: 8px;
                     padding: 16px;
+                    padding-top: 64px;
 					float:left;
 					width: 288px;
 					min-height: 72px;
 					background: #222;
 					border: 1px solid #000;
+
+                    &::after {
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        right: 0;
+                        height: 48px;
+                        background: #111;
+                        content: attr(data-category);
+                        border-bottom: 1px solid #000;
+                        line-height: 48px;
+                        padding-left: 8px;
+                        font-size: 14pt;
+                        font-weight: 700;
+                    }
 
 					.task {
 						display: block;

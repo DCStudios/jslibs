@@ -55,22 +55,62 @@ body #transition-container #page {
   padding: 64px;
   animation: fadeIn 800ms ease-in-out;
 }
-body #transition-container #page #tasks {
+body #transition-container #page .taskcontainer {
+  position: relative;
   background: #333;
   margin: 16px;
+  padding-left: 56px;
   border: 1px solid #AAA;
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
 }
-body #transition-container #page #tasks .taskList {
+body #transition-container #page .taskcontainer .createTaskListButton {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 48px;
+  height: 48px;
+  background: #000;
+  border: 1px solid #555;
+  line-height: 48px;
+  text-align: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+body #transition-container #page .taskcontainer .createTaskListButton:hover {
+  background: #222;
+}
+body #transition-container #page .taskcontainer .createTaskListButton:active {
+  border-color: #000;
+}
+body #transition-container #page .taskcontainer .taskList {
+  position: relative;
   margin: 8px;
   padding: 16px;
+  padding-top: 64px;
   float: left;
   width: 288px;
   min-height: 72px;
   background: #222;
   border: 1px solid #000;
 }
-body #transition-container #page #tasks .taskList .task {
+body #transition-container #page .taskcontainer .taskList::after {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 48px;
+  background: #111;
+  content: attr(data-category);
+  border-bottom: 1px solid #000;
+  line-height: 48px;
+  padding-left: 8px;
+  font-size: 14pt;
+  font-weight: 700;
+}
+body #transition-container #page .taskcontainer .taskList .task {
   display: block;
   margin-bottom: 8px;
   width: 256px;
@@ -78,10 +118,10 @@ body #transition-container #page #tasks .taskList .task {
   border: 1px solid #888;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
-body #transition-container #page #tasks .taskList .task:last-child {
+body #transition-container #page .taskcontainer .taskList .task:last-child {
   margin-bottom: 0;
 }
-body #transition-container #page #tasks .taskList .task .task-name {
+body #transition-container #page .taskcontainer .taskList .task .task-name {
   font-size: 16pt;
   font-family: Tahoma;
   font-weight: 400;
@@ -89,21 +129,21 @@ body #transition-container #page #tasks .taskList .task .task-name {
   border-bottom: 1px solid #AAA;
   padding-left: 4px;
 }
-body #transition-container #page #tasks .taskList .task .task-content {
+body #transition-container #page .taskcontainer .taskList .task .task-content {
   font-size: 12pt;
   font-family: Verdana;
   font-weight: 400;
   padding: 4px;
 }
-body #transition-container #page #tasks .taskList .task:hover {
+body #transition-container #page .taskcontainer .taskList .task:hover {
   cursor: pointer;
 }
-body #transition-container #page #tasks .taskList .task.ui-sortable-helper {
+body #transition-container #page .taskcontainer .taskList .task.ui-sortable-helper {
   cursor: url("../medias/drag_cursor.png"), move;
   border: 3px solid #AAA;
   background: #181818;
 }
-body #transition-container #page #tasks .taskList .taskPlaceholder {
+body #transition-container #page .taskcontainer .taskList .taskPlaceholder {
   display: block;
   margin-top: 8px;
   margin-bottom: 8px;

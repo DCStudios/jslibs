@@ -5,10 +5,12 @@
         <meta charset="UTF-8" />
 
         <link rel="stylesheet" href="css/reset.css" type="text/css" />
-        <link rel="stylesheet" href="css/styles.css" type="text/css" />
-		<link rel="stylesheet" href="css/jquery-ui.min.css">
+        <link rel="stylesheet" href="css/jquery-ui.css">
+        <!--<link rel="stylesheet" href="css/jquery-ui.min.css">-->
 		<link rel="stylesheet" href="css/jquery-ui.structure.min.css">
-		<link rel="stylesheet" href="css/jquery-ui.theme.min.css">
+        <!--<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">-->
+        <link rel="stylesheet" href="css/styles.css" type="text/css" />
+		<!-- <link rel="stylesheet" href="css/jquery-ui.theme.min.css"> -->
         <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
         <script type="text/javascript" src="../libs/transitions.js"></script>
@@ -20,24 +22,24 @@
             <div id="page">
                 <h1>Page 1</h1>
                 <p>This is the page 1 to test transitions.</p>
-				<div id="tasks">
-					<div class="taskList">
+				<div id="tasks" class="taskcontainer">
+					<div class="taskList" data-category="TODO">
 						<div class="task">
 							<h1 class="task-name">Sample Task</h1>
 							<p class="task-content">This is a sample task!</p>
 						</div>
-					</div>
-					<div class="taskList">
-						<div class="task">
-							<h1 class="task-name">TODO</h1>
-							<p class="task-content">Create a new website</p>
+                        <div class="task">
+							<h1 class="task-name">Create dcstudio.grn.cc</h1>
+							<p class="task-content">
+							    Create and update the dcstudio.grn.cc website, updating its server access.
+							</p>
 						</div>
 						<div class="task">
 							<h1 class="task-name">Doing</h1>
 							<p class="task-content">Creating task.js</p>
 						</div>
 					</div>
-				</div>
+                </div>
                 <form action='index.html' method='get'>
                     <label>Name:</label><input type="text" name="username" /><br>
                     <label>Password:</label><input type="password" name="password" /><br>
@@ -62,7 +64,7 @@
                 "loadCompleted": function(){ console.log( "Load completed!" ); }
             });
 
-            DefineTask( "#tasks" );
+            DefineTask( ".taskcontainer" );
         </script>
     </body>
 </html>
