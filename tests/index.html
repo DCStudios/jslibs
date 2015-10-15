@@ -22,17 +22,17 @@
                 <p>This is the page 1 to test transitions.</p>
 				<div id="tasks">
 					<div class="taskList">
-						<div class="task sortable">
+						<div class="task">
 							<h1 class="task-name">Sample Task</h1>
 							<p class="task-content">This is a sample task!</p>
 						</div>
 					</div>
 					<div class="taskList">
-						<div class="task sortable">
+						<div class="task">
 							<h1 class="task-name">TODO</h1>
 							<p class="task-content">Create a new website</p>
 						</div>
-						<div class="task sortable">
+						<div class="task">
 							<h1 class="task-name">Doing</h1>
 							<p class="task-content">Creating task.js</p>
 						</div>
@@ -62,11 +62,7 @@
                 "loadCompleted": function(){ console.log( "Load completed!" ); }
             });
 
-			$( "#tasks .taskList" ).sortable({
-				placeholder: "taskPlaceholder",
-				helper: "clone",
-				connectWith: ".taskList"
-			});
+            DefineTask( "#tasks" );
         </script>
     </body>
 </html>
