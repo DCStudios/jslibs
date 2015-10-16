@@ -36,6 +36,15 @@ body a {
     transform: translate(256px, 0);
   }
 }
+body .formInput {
+  width: calc(100% - 8px);
+  padding: 4px;
+  background: #002;
+  margin-bottom: 8px;
+}
+body .formInput:last-child {
+  margin-bottom: 0;
+}
 body #transition-container {
   position: absolute;
   left: 0;

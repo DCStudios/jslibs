@@ -37,36 +37,67 @@ var DefineTask;
 			$taskContainer.append( $('<div class="dummy" style="clear:both;"></div>') );
 
 			// #COMPLETED:0 Fix the connectWith with .taskList
-			$taskContainer.find( "form" ).each( function( fi,fe) {
-				$form = $(fe);
-				$form.off("submit").on("submit", function(evt){
-					evt.preventDefault();
-					$form.closest(".createTaskListModal").dialog("close");
-					var $tasklist = createNewTaskList( $form.find(".tasklistName").val() );
-					$tasklist.insertBefore( $taskContainer.find(".dummy") ).sortable({
-						placeholder: "taskPlaceholder",
-						handle: ".task-name",
-						cancel: ".task-close",
-						dropOnEmpty: true,
-						helper: "clone",
-						cursorAt: { left: 64, top: 16 },
-						connectWidth: ".taskList"
-					});
+			$taskListForm = $taskContainer.find( ".createTaskListModal form" );
+			$taskListForm.off("submit").on("submit", function(evt){
+				evt.preventDefault();
+				$taskListForm.closest(".createTaskListModal").dialog("close");
 
-					$tasklist.find( ".taskList-close" ).on("click", function(){ $tasklist.remove(); } );
+				var tasklist = {};
 
-					$taskContainer.find(".taskList").each( function( ti,te ){
-						$(te).sortable("option","connectWith",".taskList");
-					});
-
-					$form[0].reset();
+				tasklist.$tasklist = createNewTaskList( $taskListForm.find(".tasklistName").val() );
+				tasklist.$taskForm = tasklist.$tasklist.find(".createTaskModal form" );
+				tasklist.$tasklist.insertBefore( $taskContainer.find(".dummy") ).sortable({
+					placeholder: "taskPlaceholder",
+					handle: ".task-name",
+					cancel: ".task-close",
+					dropOnEmpty: true,
+					helper: "clone",
+					cursorAt: { left: 64, top: 16 },
+					connectWidth: ".taskList"
 				});
+
+				tasklist.$createTaskModal = tasklist.$tasklist.find( ".createTaskModal" ).dialog({
+					autoOpen: false,
+					width: 400,
+					modal: true,
+					buttons: {
+						"Create Task": function() { tasklist.$createTaskModal.find("form").submit(); },
+						Cancel: function(){ tasklist.$createTaskModal.dialog("close"); }
+					}
+				});
+
+				tasklist.onFormSubmit = function(evt) {
+					evt.preventDefault();
+					this.$createTaskModal.dialog("close");
+					var $task = createNewTask(
+						this.$taskForm.find(".taskName").val(),
+						this.$taskForm.find(".taskContent").val(),
+						this.$taskForm.find(".taskTags").val()
+					);
+					this.$tasklist.append( $task );
+				}.bind( tasklist );
+				tasklist.$taskForm.on("submit", tasklist.onFormSubmit );
+
+				tasklist.onAdd = function() {
+					this.$createTaskModal.dialog("open");
+				}.bind( tasklist );
+				tasklist.$tasklist.find( ".taskList-add" ).on("click", tasklist.onAdd );
+
+				tasklist.onRemove = function() {
+					this.$tasklist.remove();
+				}.bind( tasklist );
+				tasklist.$tasklist.find( ".taskList-close" ).on("click", tasklist.onRemove );
+
+				$taskContainer.find(".taskList").each( function( ti,te ){
+					$(te).sortable("option","connectWith",".taskList");
+				});
+
+				$taskListForm[0].reset();
 			});
 
 			$createTaskListModal = $taskContainer.find( ".createTaskListModal" ).dialog({
 				autoOpen: false,
 				width: 400,
-				height: 200,
 				modal: true,
 				buttons: {
 					"Create TaskList": function() {
@@ -75,6 +106,8 @@ var DefineTask;
 					Cancel: function(){ $createTaskListModal.dialog( "close" ); }
 				}
 			});
+
+
 
 			$taskContainer.find(".createTaskListButton").on("click", function(){
 				$createTaskListModal.dialog("open");
@@ -96,8 +129,43 @@ var DefineTask;
 		$field.append( $("<input></input>")
 			.attr("type","text")
 			.attr("name","tasklistName")
-			.attr("class","tasklistName text ui-widget-content")
+			.attr("class","tasklistName text ui-widget-content formInput")
 			.attr("value","TODO"));
+		$field.append( $("<input></input>")
+			.attr("type","submit")
+			.attr("tabindex","-1")
+			.attr("style","position:absolute; top: -1000px;")
+		);
+		$modal.append( $form.append( $field ) );
+		return $modal;
+	}
+
+	/**
+	 * Create the modal that will be used for creating new Task
+	 * @return {jQuery} A jQuery.Dialog object
+	 */
+	function generateCreateTaskModal() {
+		var $modal = $("<div></div>").attr("class","createTaskModal").attr("title","Create new Task");
+		var $form = $("<form></form>");
+		var $field = $("<fieldset></fieldset>");
+		$field.append( $("<label></label>").attr("for","taskName").html("Task's Name") );
+		$field.append( $("<input></input>")
+			.attr("type","text")
+			.attr("name","taskName")
+			.attr("class","taskName text ui-widget-content formInput")
+			.attr("value","New Task"));
+		$field.append( $("<label></label>").attr("for","taskContent").html("Task's Description") );
+		$field.append( $("<input></input>")
+			.attr("type","text")
+			.attr("name","taskContent")
+			.attr("class","taskContent text ui-widget-content formInput")
+			.attr("value",""));
+		$field.append( $("<label></label>").attr("for","taskTags").html("Task's Tags") );
+		$field.append( $("<input></input>")
+			.attr("type","text")
+			.attr("name","taskTags")
+			.attr("class","taskTags text ui-widget-content formInput")
+			.attr("value",""));
 		$field.append( $("<input></input>")
 			.attr("type","submit")
 			.attr("tabindex","-1")
@@ -130,13 +198,13 @@ var DefineTask;
 	 */
 	function createNewTaskList( name ) {
 		return $("<div></div>")
+		.append( generateCreateTaskModal() )
 		.append($("<div></div>").attr("class","taskList-button taskList-close")
 			.append( $("<i></i>").attr("class","fa fa-trash")))
 		.append($("<div></div>").attr("class","taskList-button taskList-edit")
 			.append( $("<i></i>").attr("class","fa fa-pencil")))
 		.append($("<div></div>").attr("class","taskList-button taskList-add")
 				.append( $("<i></i>").attr("class","fa fa-plus")))
-		.append( createNewTask( "Demo","This is a demo task." ) )
 		.attr("class","taskList")
 		.attr("data-category", name );
 	}

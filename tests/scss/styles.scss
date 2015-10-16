@@ -30,6 +30,14 @@ body {
         to { opacity: 0; transform: translate( 256px, 0 ); }
     }
 
+    .formInput {
+        width: calc(100% - 8px);
+        padding: 4px;
+        background: #002;
+        margin-bottom: 8px;
+        &:last-child{ margin-bottom:0; }
+    }
+
     #transition-container {
         position: absolute;
         left: 0;
