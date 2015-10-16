@@ -23,6 +23,14 @@
     {
       "name": "TODO",
       "hidden": false
+    },
+    {
+      "name": "NOTE",
+      "hidden": false
+    },
+    {
+      "name": "FIXED",
+      "hidden": false
     }
   ],
   "marked": {

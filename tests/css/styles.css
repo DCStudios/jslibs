@@ -59,6 +59,7 @@ body #transition-container #page .taskcontainer {
   position: relative;
   background: #333;
   margin: 16px;
+  min-height: 160px;
   padding-left: 56px;
   border: 1px solid #AAA;
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
@@ -135,7 +136,7 @@ body #transition-container #page .taskcontainer .taskList .task .task-content {
   font-weight: 400;
   padding: 4px;
 }
-body #transition-container #page .taskcontainer .taskList .task:hover {
+body #transition-container #page .taskcontainer .taskList .task .task-name:hover {
   cursor: pointer;
 }
 body #transition-container #page .taskcontainer .taskList .task.ui-sortable-helper {

@@ -25,23 +25,30 @@ var DefineTask;
 				'<div class="dummy" style="clear:both;"></div>'
 			);
 
-			// TODO: FIX LIST CONNECTION PROBLEM
+			// #FIXED:0 Fix the connectWith with .taskList
 			$taskContainer.find( "form" ).each( function( fi,fe) {
 				$form = $(fe);
 				$form.off("submit").on("submit", function(evt){
 					evt.preventDefault();
 					$form.closest(".createTaskListModal").dialog("close");
-					var $tasklist = $("<div><div class='task'>lalala</div></div>")
+					var $tasklist = $("<div></div>")
+						.append( createNewTask( "Demo","This is a demo task." ) )
 						.attr("class","taskList")
 						.attr("data-category", $form.find(".tasklistName").val() )
 						.insertBefore( $taskContainer.find(".dummy") )
 						.sortable({
 							placeholder: "taskPlaceholder",
+							handle: ".task-name",
+							cancel: ".task-close",
 							dropOnEmpty: true,
 							helper: "clone",
 							cursorAt: { left: 64, top: 16 },
-							connectWidth: "taskList"
+							connectWidth: ".taskList"
 						});
+
+					$taskContainer.find(".taskList").each( function( ti,te ){
+						$(te).sortable("option","connectWith",".taskList");
+					});
 				});
 			});
 
@@ -59,10 +66,17 @@ var DefineTask;
 			});
 
 			$taskContainer.find(".createTaskListButton").on("click", function(){
-				$createTaskListModal.dialog("open")
+				$createTaskListModal.dialog("open");
 			});
 		});
 
 	};
+
+	function createNewTask( name,content,tags ) {
+		var $task = $("<div></div>").attr("class","task");
+		$("<h1></h1>").attr("class","task-name").html(name).appendTo($task);
+		$("<p></p>").attr("class","task-content").html(content).appendTo($task);
+		return $task;
+	}
 
 })();

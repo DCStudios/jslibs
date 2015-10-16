@@ -55,6 +55,7 @@ body {
                 position: relative;
                 background: #333;
 				margin: 16px;
+                min-height: 160px;
                 padding-left: 56px;
 				border: 1px solid #AAA;
 				box-shadow: 4px 4px 8px rgba( 0,0,0,0.5 );
@@ -130,7 +131,7 @@ body {
 							padding: 4px;
 						}
 
-						&:hover { cursor:pointer; }
+						.task-name:hover { cursor:pointer; }
 						&.ui-sortable-helper {
 							cursor: url("../medias/drag_cursor.png"), move;
 							border: 3px solid #AAA;
