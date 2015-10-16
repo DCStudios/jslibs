@@ -25,11 +25,11 @@
       "hidden": false
     },
     {
-      "name": "NOTE",
+      "name": "DOING",
       "hidden": false
     },
     {
-      "name": "FIXED",
+      "name": "COMPLETED",
       "hidden": false
     }
   ],

@@ -51,6 +51,7 @@ body #transition-container #page {
   right: 64px;
   bottom: 64px;
   border: 2px solid #000;
+  overflow: auto;
   background: #111;
   padding: 64px;
   animation: fadeIn 800ms ease-in-out;
@@ -97,7 +98,7 @@ body #transition-container #page .taskcontainer .taskList {
   background: #222;
   border: 1px solid #000;
 }
-body #transition-container #page .taskcontainer .taskList::after {
+body #transition-container #page .taskcontainer .taskList::before {
   position: absolute;
   left: 0;
   top: 0;
@@ -110,6 +111,40 @@ body #transition-container #page .taskcontainer .taskList::after {
   padding-left: 8px;
   font-size: 14pt;
   font-weight: 700;
+}
+body #transition-container #page .taskcontainer .taskList .taskList-button {
+  position: absolute;
+  top: 8px;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  background: #000;
+  font-size: 12pt;
+  font-weight: 400;
+  border: 1px solid #888;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+body #transition-container #page .taskcontainer .taskList .taskList-button:hover {
+  background: #222;
+}
+body #transition-container #page .taskcontainer .taskList .taskList-button:active {
+  background: #111;
+  border-color: #000;
+  color: #333;
+}
+body #transition-container #page .taskcontainer .taskList .taskList-button.taskList-close {
+  right: 8px;
+}
+body #transition-container #page .taskcontainer .taskList .taskList-button.taskList-edit {
+  right: 48px;
+}
+body #transition-container #page .taskcontainer .taskList .taskList-button.taskList-add {
+  right: 88px;
 }
 body #transition-container #page .taskcontainer .taskList .task {
   display: block;
@@ -129,12 +164,20 @@ body #transition-container #page .taskcontainer .taskList .task .task-name {
   background: #222;
   border-bottom: 1px solid #AAA;
   padding-left: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 body #transition-container #page .taskcontainer .taskList .task .task-content {
   font-size: 12pt;
   font-family: Verdana;
   font-weight: 400;
   padding: 4px;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
 body #transition-container #page .taskcontainer .taskList .task .task-name:hover {
   cursor: pointer;

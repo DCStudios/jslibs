@@ -1,54 +1,65 @@
 var DefineTask;
 
+/*
+	#DOING:0 Add 'Add','Edit','Remove' options to .taskList
+	#TODO:0 Add 'Add', 'Edit', 'Remove' otpions to .task
+*/
+
 ( function() {
 
+	/*
+		#TODO:10 Save configuration to taskID.json
+		#TODO:20 Load configuration when DefineTask is called
+
+		Syntax of the task.js .json container:
+
+		{
+			"todo": [
+				{ name:"Demo", content:"Some Content", tags:"ced cedrik dubois" },
+				{ name:"Dem2o", content:"Some2 Content2", tags:"ced2 cedrik2 dubois2" },
+			]
+		}
+	*/
+
+	/**
+	 * Transform all 'taskContainer' into TaskManagers
+	 * @param  {selector} taskContainer The elements selector to use as TaskContainer
+	 */
 	DefineTask = function( taskContainer ) {
 
 		$( taskContainer ).each( function(i,e) {
 			var $taskContainer = $(e);
 			var $createTaskListModal;
 
-			$taskContainer.html(
-				'<div class="createTaskListModal" title="Create new TaskList">'+
-		          '<form>'+
-		            '<fieldset>'+
-		              '<label for="name">TaskList Name</label>'+
-		              '<input type="text" name="tasklistName" class="tasklistName" value="TODO" class="text ui-widget-content">'+
+			$taskContainer.html("");
+			$taskContainer.append( generateCreateTasklistModal() );
+			$taskContainer.append( $('<div class="createTaskListButton"><i class="fa fa-plus"></i></div>') );
+			$taskContainer.append( $('<div class="dummy" style="clear:both;"></div>') );
 
-		              '<!-- Allow form submission with keyboard without duplicating the dialog button -->'+
-		              '<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">'+
-		            '</fieldset>'+
-		          '</form>'+
-		        '</div>'+
-				'<div class="createTaskListButton">+</div>'+
-				$taskContainer.html() +
-				'<div class="dummy" style="clear:both;"></div>'
-			);
-
-			// #FIXED:0 Fix the connectWith with .taskList
+			// #COMPLETED:0 Fix the connectWith with .taskList
 			$taskContainer.find( "form" ).each( function( fi,fe) {
 				$form = $(fe);
 				$form.off("submit").on("submit", function(evt){
 					evt.preventDefault();
 					$form.closest(".createTaskListModal").dialog("close");
-					var $tasklist = $("<div></div>")
-						.append( createNewTask( "Demo","This is a demo task." ) )
-						.attr("class","taskList")
-						.attr("data-category", $form.find(".tasklistName").val() )
-						.insertBefore( $taskContainer.find(".dummy") )
-						.sortable({
-							placeholder: "taskPlaceholder",
-							handle: ".task-name",
-							cancel: ".task-close",
-							dropOnEmpty: true,
-							helper: "clone",
-							cursorAt: { left: 64, top: 16 },
-							connectWidth: ".taskList"
-						});
+					var $tasklist = createNewTaskList( $form.find(".tasklistName").val() );
+					$tasklist.insertBefore( $taskContainer.find(".dummy") ).sortable({
+						placeholder: "taskPlaceholder",
+						handle: ".task-name",
+						cancel: ".task-close",
+						dropOnEmpty: true,
+						helper: "clone",
+						cursorAt: { left: 64, top: 16 },
+						connectWidth: ".taskList"
+					});
+
+					$tasklist.find( ".taskList-close" ).on("click", function(){ $tasklist.remove(); } );
 
 					$taskContainer.find(".taskList").each( function( ti,te ){
 						$(te).sortable("option","connectWith",".taskList");
 					});
+
+					$form[0].reset();
 				});
 			});
 
@@ -67,16 +78,67 @@ var DefineTask;
 
 			$taskContainer.find(".createTaskListButton").on("click", function(){
 				$createTaskListModal.dialog("open");
+				$createTaskListModal.find(".tasklistName").select();
 			});
 		});
 
 	};
 
+	/**
+	 * Create the modal that will be used for creating new TaskList
+	 * @return {jQuery} A jQuery.Dialog object
+	 */
+	function generateCreateTasklistModal() {
+		var $modal = $("<div></div>").attr("class","createTaskListModal").attr("title","Create new TaskList");
+		var $form = $("<form></form>");
+		var $field = $("<fieldset></fieldset>");
+		$field.append( $("<label></label>").attr("for","tasklistName").html("TaskList's Name") );
+		$field.append( $("<input></input>")
+			.attr("type","text")
+			.attr("name","tasklistName")
+			.attr("class","tasklistName text ui-widget-content")
+			.attr("value","TODO"));
+		$field.append( $("<input></input>")
+			.attr("type","submit")
+			.attr("tabindex","-1")
+			.attr("style","position:absolute; top: -1000px;")
+		);
+		$modal.append( $form.append( $field ) );
+		return $modal;
+	}
+
+	/**
+	 * Create a new Task
+	 * @param  {string} name    Name of the task
+	 * @param  {string} content The description of the task
+	 * @param  {string} tags    OPTIONAL | The tags of the task
+	 * @return {jQuery}         A jQuery object ready to be injected
+	 */
 	function createNewTask( name,content,tags ) {
 		var $task = $("<div></div>").attr("class","task");
 		$("<h1></h1>").attr("class","task-name").html(name).appendTo($task);
 		$("<p></p>").attr("class","task-content").html(content).appendTo($task);
+		var data = { "name":name, "content":content, "tags":tags };
+		$task.data("taskData",data);
 		return $task;
+	}
+
+	/**
+	 * Create a new TaskList
+	 * @param  {string} name The name of the tasklist
+	 * @return {jQuery}      A jQuery object ready to be injected
+	 */
+	function createNewTaskList( name ) {
+		return $("<div></div>")
+		.append($("<div></div>").attr("class","taskList-button taskList-close")
+			.append( $("<i></i>").attr("class","fa fa-trash")))
+		.append($("<div></div>").attr("class","taskList-button taskList-edit")
+			.append( $("<i></i>").attr("class","fa fa-pencil")))
+		.append($("<div></div>").attr("class","taskList-button taskList-add")
+				.append( $("<i></i>").attr("class","fa fa-plus")))
+		.append( createNewTask( "Demo","This is a demo task." ) )
+		.attr("class","taskList")
+		.attr("data-category", name );
 	}
 
 })();
