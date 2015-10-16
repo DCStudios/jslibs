@@ -1,15 +1,15 @@
 var DefineTask;
 
 /*
-	#DOING:0 Add 'Add','Edit','Remove' options to .taskList
-	#TODO:0 Add 'Add', 'Edit', 'Remove' otpions to .task
+	#COMPLETED:0 Add 'Add','Edit','Remove' options to .taskList
+	#DOING:0 Add 'Add', 'Edit', 'Remove' otpions to .task
 */
 
 ( function() {
 
 	/*
-		#TODO:10 Save configuration to taskID.json
-		#TODO:20 Load configuration when DefineTask is called
+		#TODO:0 Save configuration to taskID.json
+		#TODO:10 Load configuration when DefineTask is called
 
 		Syntax of the task.js .json container:
 
@@ -36,7 +36,7 @@ var DefineTask;
 			$taskContainer.append( $('<div class="createTaskListButton"><i class="fa fa-plus"></i></div>') );
 			$taskContainer.append( $('<div class="dummy" style="clear:both;"></div>') );
 
-			// #COMPLETED:0 Fix the connectWith with .taskList
+			// #COMPLETED:10 Fix the connectWith with .taskList
 			$taskListForm = $taskContainer.find( ".createTaskListModal form" );
 			$taskListForm.off("submit").on("submit", function(evt){
 				evt.preventDefault();
@@ -45,7 +45,8 @@ var DefineTask;
 				var tasklist = {};
 
 				tasklist.$tasklist = createNewTaskList( $taskListForm.find(".tasklistName").val() );
-				tasklist.$taskForm = tasklist.$tasklist.find(".createTaskModal form" );
+				tasklist.$taskForm = tasklist.$tasklist.find(".createTaskModal form");
+				tasklist.$editForm = tasklist.$tasklist.find(".editTaskListModal form");
 				tasklist.$tasklist.insertBefore( $taskContainer.find(".dummy") ).sortable({
 					placeholder: "taskPlaceholder",
 					handle: ".task-name",
@@ -61,8 +62,18 @@ var DefineTask;
 					width: 400,
 					modal: true,
 					buttons: {
-						"Create Task": function() { tasklist.$createTaskModal.find("form").submit(); },
+						"Create Task": function() { tasklist.$taskForm.submit(); },
 						Cancel: function(){ tasklist.$createTaskModal.dialog("close"); }
+					}
+				});
+
+				tasklist.$editTaskListModal = tasklist.$tasklist.find( ".editTaskListModal" ).dialog({
+					autoOpen: false,
+					width: 400,
+					modal: true,
+					buttons: {
+						"Edit Task": function() { tasklist.$editForm.submit(); },
+						Cancel: function() { tasklist.$editTaskListModal.dialog("close"); }
 					}
 				});
 
@@ -78,10 +89,22 @@ var DefineTask;
 				}.bind( tasklist );
 				tasklist.$taskForm.on("submit", tasklist.onFormSubmit );
 
+				tasklist.onEditFormSubmit = function(evt) {
+					evt.preventDefault();
+					this.$editTaskListModal.dialog("close");
+					this.$tasklist.attr("data-category", this.$editForm.find(".tasklistName").val() );
+				}.bind( tasklist );
+				tasklist.$editForm.on("submit", tasklist.onEditFormSubmit );
+
 				tasklist.onAdd = function() {
 					this.$createTaskModal.dialog("open");
 				}.bind( tasklist );
 				tasklist.$tasklist.find( ".taskList-add" ).on("click", tasklist.onAdd );
+
+				tasklist.onEdit = function() {
+					this.$editTaskListModal.dialog("open");
+				}.bind( tasklist );
+				tasklist.$tasklist.find( ".taskList-edit" ).on("click", tasklist.onEdit );
 
 				tasklist.onRemove = function() {
 					this.$tasklist.remove();
@@ -139,6 +162,30 @@ var DefineTask;
 		$modal.append( $form.append( $field ) );
 		return $modal;
 	}
+
+	/**
+	 * Create the modal that will be used for editing TaskList name
+	 * @return {jQuery} A jQuery.Dialog object
+	 */
+	function generateEditTasklistModal( currentName ) {
+		var $modal = $("<div></div>").attr("class","editTaskListModal").attr("title","Edit TaskList Name");
+		var $form = $("<form></form>");
+		var $field = $("<fieldset></fieldset>");
+		$field.append( $("<label></label>").attr("for","tasklistName").html("TaskList's Name") );
+		$field.append( $("<input></input>")
+			.attr("type","text")
+			.attr("name","tasklistName")
+			.attr("class","tasklistName text ui-widget-content formInput")
+			.attr("value", currentName ) );
+		$field.append( $("<input></input>")
+			.attr("type","submit")
+			.attr("tabindex","-1")
+			.attr("style","position:absolute; top: -1000px;")
+		);
+		$modal.append( $form.append( $field ) );
+		return $modal;
+	}
+
 
 	/**
 	 * Create the modal that will be used for creating new Task
@@ -199,6 +246,7 @@ var DefineTask;
 	function createNewTaskList( name ) {
 		return $("<div></div>")
 		.append( generateCreateTaskModal() )
+		.append( generateEditTasklistModal() )
 		.append($("<div></div>").attr("class","taskList-button taskList-close")
 			.append( $("<i></i>").attr("class","fa fa-trash")))
 		.append($("<div></div>").attr("class","taskList-button taskList-edit")
