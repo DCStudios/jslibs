@@ -1,16 +1,16 @@
 var DefineTask;
 
 /*
-	#COMPLETED:0 Add 'Add','Edit','Remove' options to .taskList
-	#DOING:0 Add 'Add', 'Edit', 'Remove' otpions to .task
+	#COMPLETED:10 Add 'Add','Edit','Remove' options to .taskList
+	#COMPLETED:0 Add 'Remove' otpions to .task
+	#TODO:0 Save configuration to taskID.json
+	#TODO:10 Load configuration when DefineTask is called
+	#DOING:0 Rewrite Task.js to be object oriented
 */
 
 ( function() {
 
 	/*
-		#TODO:0 Save configuration to taskID.json
-		#TODO:10 Load configuration when DefineTask is called
-
 		Syntax of the task.js .json container:
 
 		{
@@ -36,7 +36,7 @@ var DefineTask;
 			$taskContainer.append( $('<div class="createTaskListButton"><i class="fa fa-plus"></i></div>') );
 			$taskContainer.append( $('<div class="dummy" style="clear:both;"></div>') );
 
-			// #COMPLETED:10 Fix the connectWith with .taskList
+			// #COMPLETED:20 Fix the connectWith with .taskList
 			$taskListForm = $taskContainer.find( ".createTaskListModal form" );
 			$taskListForm.off("submit").on("submit", function(evt){
 				evt.preventDefault();
@@ -50,7 +50,7 @@ var DefineTask;
 				tasklist.$tasklist.insertBefore( $taskContainer.find(".dummy") ).sortable({
 					placeholder: "taskPlaceholder",
 					handle: ".task-name",
-					cancel: ".task-close",
+					cancel: ".task-button",
 					dropOnEmpty: true,
 					helper: "clone",
 					cursorAt: { left: 64, top: 16 },
@@ -230,11 +230,17 @@ var DefineTask;
 	 * @return {jQuery}         A jQuery object ready to be injected
 	 */
 	function createNewTask( name,content,tags ) {
+		// Generate Task Element
 		var $task = $("<div></div>").attr("class","task");
 		$("<h1></h1>").attr("class","task-name").html(name).appendTo($task);
 		$("<p></p>").attr("class","task-content").html(content).appendTo($task);
+		$("<div></div>").attr("class","task-button task-close").html("<i class='fa fa-trash'></i>").appendTo( $task.find("h1") );
 		var data = { "name":name, "content":content, "tags":tags };
 		$task.data("taskData",data);
+
+		// Bind Close buttons
+		$task.find(".task-close").on("click", function(){ $task.remove(); });
+
 		return $task;
 	}
 
