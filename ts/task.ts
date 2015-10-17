@@ -3,14 +3,15 @@
 
 /*
 	ImDone stuff:
-	#COMPLETED:30 Fix the connectWith with .taskList
-	#COMPLETED:20 Add 'Add','Edit','Remove' options to .taskList
-	#COMPLETED:10 Add 'Remove' otpions to .task
+	#COMPLETED:40 Fix the connectWith with .taskList
+	#COMPLETED:30 Add 'Add','Edit','Remove' options to .taskList
+	#COMPLETED:20 Add 'Remove' otpions to .task
 	#TODO:0 Save configuration to taskID.json
 	#TODO:10 Load configuration when DefineTask is called
-	#DOING:0 Rewrite Task.js to be object oriented +Typescript
-	#COMPLETED:0 Create and add a Task in a TaskList
-	TODO: Add tags to Task
+	#COMPLETED:0 Rewrite Task.js to be object oriented +Typescript
+	#COMPLETED:10 Create and add a Task in a TaskList
+	#DOING:0 Add tags to Task
+	TODO: Add READONLY support to task.js +UserRights
 */
 
 /**
@@ -187,6 +188,18 @@ class TaskList {
 		this.tasklist.append( this.generateButton( "taskList-close", "fa-trash", this.onClosed ) );
 		this.tasklist.append( this.generateButton( "taskList-edit", "fa-pencil", this.onEditCategory ) );
 		this.tasklist.append( this.generateButton( "taskList-add", "fa-plus", this.onCreateNewTask ) );
+		this.tasklist.sortable({
+			placeholder: "taskPlaceholder",
+			handle: ".task-name",
+			cancel: ".task-button",
+			dropOnEmpty: true,
+			helper: "clone",
+			cursorAt: {
+				left: 64,
+				top: 16
+			},
+			connectWith: '.taskList'
+		});
 	}
 
 	private generateButton( buttonClass:string, iconClass:string, buttonCallback:()=>void ):JQuery {
@@ -269,10 +282,14 @@ class TaskList {
 
 	private onCreateNewTask():void {
 		this.createTaskModal.dialog("open");
+		( <HTMLFormElement>this.createTaskForm[0] ).reset();
+		this.createTaskForm.find(".taskName").select();
 	}
 
 	private onEditCategory():void {
 		this.editTasklistModal.dialog("open");
+		( <HTMLFormElement>this.editTasklistForm[0] ).reset();
+		this.editTasklistForm.find(".tasklistName").val( this.category ).select();
 	}
 
 	/**
@@ -379,11 +396,10 @@ class Task {
 	 */
 	private buildSelf( content:string ):void {
 		this.task = $("<div></div>").attr("class","task");
-		this.taskName = $("<h1></h1>").attr("class","task-name").html( this.name ).appendTo( this.task );
-		this.taskName.append(
-			$("<div></div>").attr("class","task-button task-close").append($("<i></i>").attr( "class","fa fa-trash") )
-				.on( "click", this.onClosed.bind( this ) )
-		);
+		this.taskName = $("<h1></h1>").attr("class","task-name").html( this.name );
+		this.task.append( this.taskName );
+		$("<div></div>").attr("class","task-button task-close").append($("<i></i>").attr( "class","fa fa-trash"))
+			.appendTo( this.task ).on( "click", this.onClosed.bind( this ) );
 		this.task.append( $("<p></p>").attr("class","task-content").attr("contenteditable","true").html(content) );
 	}
 

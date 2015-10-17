@@ -130,6 +130,7 @@ body {
             body #transition-container #page .taskcontainer .taskList .taskList-button.taskList-add {
               right: 88px; }
           body #transition-container #page .taskcontainer .taskList .task {
+            position: relative;
             display: block;
             margin-bottom: 8px;
             width: 256px;
@@ -138,6 +139,32 @@ body {
             box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); }
             body #transition-container #page .taskcontainer .taskList .task:last-child {
               margin-bottom: 0; }
+            body #transition-container #page .taskcontainer .taskList .task .task-button {
+              position: absolute;
+              top: 4px;
+              width: 24px;
+              height: 24px;
+              line-height: 24px;
+              text-align: center;
+              background: #000;
+              font-size: 12pt;
+              font-weight: 400;
+              border: 1px solid #888;
+              -webkit-user-select: none;
+              -moz-user-select: none;
+              -ms-user-select: none;
+              user-select: none;
+              cursor: pointer; }
+              body #transition-container #page .taskcontainer .taskList .task .task-button:hover {
+                background: #222; }
+              body #transition-container #page .taskcontainer .taskList .task .task-button:active {
+                background: #111;
+                border-color: #000;
+                color: #333; }
+              body #transition-container #page .taskcontainer .taskList .task .task-button.task-close {
+                right: 4px; }
+              body #transition-container #page .taskcontainer .taskList .task .task-button.task-edit {
+                right: 32px; }
             body #transition-container #page .taskcontainer .taskList .task .task-name {
               position: relative;
               font-size: 16pt;
@@ -150,32 +177,6 @@ body {
               -moz-user-select: none;
               -ms-user-select: none;
               user-select: none; }
-              body #transition-container #page .taskcontainer .taskList .task .task-name .task-button {
-                position: absolute;
-                top: 4px;
-                width: 24px;
-                height: 24px;
-                line-height: 24px;
-                text-align: center;
-                background: #000;
-                font-size: 12pt;
-                font-weight: 400;
-                border: 1px solid #888;
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
-                cursor: pointer; }
-                body #transition-container #page .taskcontainer .taskList .task .task-name .task-button:hover {
-                  background: #222; }
-                body #transition-container #page .taskcontainer .taskList .task .task-name .task-button:active {
-                  background: #111;
-                  border-color: #000;
-                  color: #333; }
-                body #transition-container #page .taskcontainer .taskList .task .task-name .task-button.task-close {
-                  right: 4px; }
-                body #transition-container #page .taskcontainer .taskList .task .task-name .task-button.task-edit {
-                  right: 32px; }
             body #transition-container #page .taskcontainer .taskList .task .task-content {
               font-size: 12pt;
               font-family: Verdana;

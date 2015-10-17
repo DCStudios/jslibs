@@ -102,6 +102,18 @@ var TaskList = (function () {
         this.tasklist.append(this.generateButton("taskList-close", "fa-trash", this.onClosed));
         this.tasklist.append(this.generateButton("taskList-edit", "fa-pencil", this.onEditCategory));
         this.tasklist.append(this.generateButton("taskList-add", "fa-plus", this.onCreateNewTask));
+        this.tasklist.sortable({
+            placeholder: "taskPlaceholder",
+            handle: ".task-name",
+            cancel: ".task-button",
+            dropOnEmpty: true,
+            helper: "clone",
+            cursorAt: {
+                left: 64,
+                top: 16
+            },
+            connectWith: '.taskList'
+        });
     };
     TaskList.prototype.generateButton = function (buttonClass, iconClass, buttonCallback) {
         return $("<div></div>").attr("class", "taskList-button " + buttonClass).html("<i class='fa " + iconClass + "'></i>")
@@ -172,9 +184,13 @@ var TaskList = (function () {
     };
     TaskList.prototype.onCreateNewTask = function () {
         this.createTaskModal.dialog("open");
+        this.createTaskForm[0].reset();
+        this.createTaskForm.find(".taskName").select();
     };
     TaskList.prototype.onEditCategory = function () {
         this.editTasklistModal.dialog("open");
+        this.editTasklistForm[0].reset();
+        this.editTasklistForm.find(".tasklistName").val(this.category).select();
     };
     TaskList.prototype.onModalCreateTaskCreate = function () {
         this.createTaskForm.submit();
@@ -230,9 +246,10 @@ var Task = (function () {
     });
     Task.prototype.buildSelf = function (content) {
         this.task = $("<div></div>").attr("class", "task");
-        this.taskName = $("<h1></h1>").attr("class", "task-name").html(this.name).appendTo(this.task);
-        this.taskName.append($("<div></div>").attr("class", "task-button task-close").append($("<i></i>").attr("class", "fa fa-trash"))
-            .on("click", this.onClosed.bind(this)));
+        this.taskName = $("<h1></h1>").attr("class", "task-name").html(this.name);
+        this.task.append(this.taskName);
+        $("<div></div>").attr("class", "task-button task-close").append($("<i></i>").attr("class", "fa fa-trash"))
+            .appendTo(this.task).on("click", this.onClosed.bind(this));
         this.task.append($("<p></p>").attr("class", "task-content").attr("contenteditable", "true").html(content));
     };
     Task.prototype.onClosed = function () {

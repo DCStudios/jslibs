@@ -139,7 +139,8 @@ body {
                     }
 
 					.task {
-						display: block;
+						position: relative;
+                        display: block;
 						margin-bottom: 8px;
 						width: 256px;
 						background: #000;
@@ -147,6 +148,29 @@ body {
 						box-shadow: 2px 2px 4px rgba( 0,0,0,0.5 );
 
                         &:last-child{ margin-bottom: 0; }
+
+                        .task-button {
+                            position: absolute;
+                            top: 4px;
+                            width: 24px;
+                            height: 24px;
+                            line-height: 24px;
+                            text-align: center;
+                            background: #000;
+                            font-size: 12pt;
+                            font-weight: 400;
+                            border: 1px solid #888;
+                            -webkit-user-select: none;
+                            -moz-user-select: none;
+                            -ms-user-select: none;
+                            user-select: none;
+                            cursor: pointer;
+                            &:hover { background: #222; }
+                            &:active { background: #111; border-color: #000; color: #333; }
+
+                            &.task-close { right: 4px; }
+                            &.task-edit { right: 32px; }
+                        }
 
 						.task-name {
 							position: relative;
@@ -160,29 +184,6 @@ body {
                             -moz-user-select: none;
                             -ms-user-select: none;
                             user-select: none;
-
-                            .task-button {
-                                position: absolute;
-                                top: 4px;
-                                width: 24px;
-                                height: 24px;
-                                line-height: 24px;
-                                text-align: center;
-                                background: #000;
-                                font-size: 12pt;
-                                font-weight: 400;
-                                border: 1px solid #888;
-                                -webkit-user-select: none;
-                                -moz-user-select: none;
-                                -ms-user-select: none;
-                                user-select: none;
-                                cursor: pointer;
-                                &:hover { background: #222; }
-                                &:active { background: #111; border-color: #000; color: #333; }
-
-                                &.task-close { right: 4px; }
-                                &.task-edit { right: 32px; }
-                            }
 						}
 
 						.task-content {
