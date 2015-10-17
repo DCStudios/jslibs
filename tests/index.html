@@ -49,7 +49,9 @@
                 "loadCompleted": function(){ console.log( "Load completed!" ); }
             });
 
-            DefineTask( ".taskcontainer" );
+            //DefineTask( ".taskcontainer" );
+
+            var taskManager = new TaskContainer( $(".taskcontainer") );
         </script>
     </body>
 </html>
