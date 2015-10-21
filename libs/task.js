@@ -21,7 +21,6 @@ var DefineTask;
 		          '</form>'+
 		        '</div>'+
 				'<div class="createTaskListButton">+</div>'+
-				$taskContainer.html() +
 				'<div class="dummy" style="clear:both;"></div>'
 			);
 
@@ -31,16 +30,18 @@ var DefineTask;
 				$form.off("submit").on("submit", function(evt){
 					evt.preventDefault();
 					$form.closest(".createTaskListModal").dialog("close");
-					var $tasklist = $("<div><div class='task'>lalala</div></div>")
-						.attr("class","taskList")
+					var $tasklist = $("<div></div>");
+					createTask( "Demo", "This is a demo task generated with 'createTask()'.", "" ).appendTo( $tasklist);
+					$tasklist.attr("class","taskList")
 						.attr("data-category", $form.find(".tasklistName").val() )
 						.insertBefore( $taskContainer.find(".dummy") )
 						.sortable({
 							placeholder: "taskPlaceholder",
 							dropOnEmpty: true,
+							containment: $taskContainer,
 							helper: "clone",
 							cursorAt: { left: 64, top: 16 },
-							connectWidth: "taskList"
+							connectWidth: ".taskContainer"
 						});
 				});
 			});
@@ -64,5 +65,14 @@ var DefineTask;
 		});
 
 	};
+
+	function createTask( name, content, tags ) {
+		var $task = $("<div></div>").attr("class","task");
+		var $taskTitle = $("<h1></h1>").attr("class","task-name");
+		var $taskContent = $("<p></p>").attr("class","task-content");
+		$taskTitle.html(name).appendTo( $task );
+		$taskContent.html(content).appendTo( $task );
+		return $task;
+	}
 
 })();
