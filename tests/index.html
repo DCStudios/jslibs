@@ -5,6 +5,7 @@
         <meta charset="UTF-8" />
 
         <link rel="stylesheet" href="css/reset.css" type="text/css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="css/jquery-ui.css">
         <!--<link rel="stylesheet" href="css/jquery-ui.min.css">-->
 		<link rel="stylesheet" href="css/jquery-ui.structure.min.css">
@@ -13,6 +14,7 @@
 		<!-- <link rel="stylesheet" href="css/jquery-ui.theme.min.css"> -->
         <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="js/json2.min.js"></script>
         <script type="text/javascript" src="../libs/transitions.js"></script>
 		<script type="text/javascript" src="../libs/task.js"></script>
     </head>
@@ -20,22 +22,15 @@
         <div id="transition-container">
 
             <div id="page">
-                <h1>Page 1</h1>
-                <p>This is the page 1 to test transitions.</p>
+                <h1>Task.js</h1>
+                <p>
+                    Here is a demo of Task.js<br>
+                    Task.js is an easy way to track TODOs and NOTEs.<br>
+                    It works by moving 'tasks' from 'tasklists'.
+                    Of course, you can add, edit and remove tasks!
+                </p>
 				<div id="tasks" class="taskcontainer">
-					<div class="taskList" data-category="TODO">
-						<div class="task">
-							<h1 class="task-name">Sample Task</h1>
-							<p class="task-content">This is a sample task!</p>
-						</div>
-					</div>
                 </div>
-                <form action='index.html' method='get'>
-                    <label>Name:</label><input type="text" name="username" /><br>
-                    <label>Password:</label><input type="password" name="password" /><br>
-                    <input type="submit" />
-                </form>
-                <span class="footer"><p><a href="index.html">Just Hoping it works</a>...</p></span>
             </div>
 
         </div>
@@ -54,7 +49,9 @@
                 "loadCompleted": function(){ console.log( "Load completed!" ); }
             });
 
-            DefineTask( ".taskcontainer" );
+            //DefineTask( ".taskcontainer" );
+
+            var taskManager = new TaskContainer( $(".taskcontainer") );
         </script>
     </body>
 </html>

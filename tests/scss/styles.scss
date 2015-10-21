@@ -30,6 +30,14 @@ body {
         to { opacity: 0; transform: translate( 256px, 0 ); }
     }
 
+    .formInput {
+        width: calc(100% - 8px);
+        padding: 4px;
+        background: #002;
+        margin-bottom: 8px;
+        &:last-child{ margin-bottom:0; }
+    }
+
     #transition-container {
         position: absolute;
         left: 0;
@@ -46,6 +54,7 @@ body {
             right: 64px;
             bottom: 64px;
             border: 2px solid #000;
+            overflow: auto;
 
             background: #111;
             padding: 64px;
@@ -55,7 +64,8 @@ body {
                 position: relative;
                 background: #333;
 				margin: 16px;
-                padding-left: 56px;
+                min-height: 160px;
+                padding-left: 40px;
 				border: 1px solid #AAA;
 				box-shadow: 4px 4px 8px rgba( 0,0,0,0.5 );
 
@@ -63,11 +73,11 @@ body {
                     position: absolute;
                     left: 4px;
                     top: 4px;
-                    width: 48px;
-                    height: 48px;
+                    width: 32px;
+                    height: 32px;
                     background: #000;
                     border: 1px solid #555;
-                    line-height: 48px;
+                    line-height: 32px;
                     text-align: center;
                     -webkit-user-select: none;
                     -moz-user-select: none;
@@ -89,7 +99,7 @@ body {
 					background: #222;
 					border: 1px solid #000;
 
-                    &::after {
+                    &::before {
                         position: absolute;
                         left: 0;
                         top: 0;
@@ -104,8 +114,33 @@ body {
                         font-weight: 700;
                     }
 
+                    .taskList-button {
+                        position: absolute;
+                        top: 8px;
+                        width: 32px;
+                        height: 32px;
+                        line-height: 32px;
+                        text-align: center;
+                        background: #000;
+                        font-size: 12pt;
+                        font-weight: 400;
+                        border: 1px solid #888;
+                        -webkit-user-select: none;
+                        -moz-user-select: none;
+                        -ms-user-select: none;
+                        user-select: none;
+                        cursor: pointer;
+                        &:hover { background: #222; }
+                        &:active { background: #111; border-color: #000; color: #333; }
+
+                        &.taskList-close { right: 8px; }
+                        &.taskList-edit { right: 48px; }
+                        &.taskList-add { right: 88px; }
+                    }
+
 					.task {
-						display: block;
+						position: relative;
+                        display: block;
 						margin-bottom: 8px;
 						width: 256px;
 						background: #000;
@@ -114,13 +149,41 @@ body {
 
                         &:last-child{ margin-bottom: 0; }
 
+                        .task-button {
+                            position: absolute;
+                            top: 4px;
+                            width: 24px;
+                            height: 24px;
+                            line-height: 24px;
+                            text-align: center;
+                            background: #000;
+                            font-size: 12pt;
+                            font-weight: 400;
+                            border: 1px solid #888;
+                            -webkit-user-select: none;
+                            -moz-user-select: none;
+                            -ms-user-select: none;
+                            user-select: none;
+                            cursor: pointer;
+                            &:hover { background: #222; }
+                            &:active { background: #111; border-color: #000; color: #333; }
+
+                            &.task-close { right: 4px; }
+                            &.task-edit { right: 32px; }
+                        }
+
 						.task-name {
-							font-size: 16pt;
+							position: relative;
+                            font-size: 16pt;
 							font-family: Tahoma;
 							font-weight: 400;
 							background: #222;
 							border-bottom: 1px solid #AAA;
 							padding-left: 4px;
+                            -webkit-user-select: none;
+                            -moz-user-select: none;
+                            -ms-user-select: none;
+                            user-select: none;
 						}
 
 						.task-content {
@@ -128,9 +191,13 @@ body {
 							font-family: Verdana;
 							font-weight: 400;
 							padding: 4px;
+                            -webkit-user-select: text;
+                            -moz-user-select: text;
+                            -ms-user-select: text;
+                            user-select: text;
 						}
 
-						&:hover { cursor:pointer; }
+						.task-name:hover { cursor:pointer; }
 						&.ui-sortable-helper {
 							cursor: url("../medias/drag_cursor.png"), move;
 							border: 3px solid #AAA;
@@ -149,6 +216,17 @@ body {
 
 					}
 				}
+
+                &::before {
+                    content: ' ';
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    bottom: 0;
+                    width: 40px;
+                    background: #888;
+                    border-right: 1px solid #888;
+                }
 			}
 
             .footer {
