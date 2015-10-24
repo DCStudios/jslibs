@@ -48,6 +48,7 @@ var Transition;
                 intro: 1000,
                 exit: 800,
                 class: 'is-exiting',
+                exclude: 'transition-exclude',
                 introCompleted: function(){},
                 exitCompleted: function(){},
                 loadNextPage: function(){},
@@ -74,14 +75,21 @@ var Transition;
         /**
          * The class to assign to the container when ready to
          * animate the exit animation
-         * @type {Number}
+         * @type {String}
          */
         this.exitClass = "is-exiting";
         if( typeof options.class !== "undefined" ) this.exitClass = options.class;
 
         /**
+         * The class to ignore when binding anchors and forms
+         * @type {String}
+         */
+        this.excludeClass = "transition-exclude";
+        if( typeof options.exclude !== "undefined" ) this.excludeClass = options.exclude;
+
+        /**
          * Called when intro animation completes
-         * @return {void}
+         * @return {Void}
          */
         this._onIntroCompleted = (
             typeof options.introCompleted === "undefined" ?
@@ -91,7 +99,7 @@ var Transition;
 
         /**
          * Called when exit animation completes
-         * @return {void}
+         * @return {Void}
          */
         this._onExitCompleted = (
             typeof options.exitCompleted === "undefined" ?
@@ -102,7 +110,7 @@ var Transition;
         /**
          * Called when the next page is about to load,
          * which also means the exit animation starts
-         * @return {void}
+         * @return {Void}
          */
         this._onLoadNextPage = (
             typeof options.loadNextPage === "undefined" ?
@@ -113,7 +121,7 @@ var Transition;
         /**
          * Called when the newContent was injected,
          * which also means the intro animation starts
-         * @return {void}
+         * @return {Void}
          */
         this._onLoadNextPageCompleted = (
             typeof options.loadCompleted === "undefined" ?
@@ -144,7 +152,7 @@ var Transition;
      */
     Transition.prototype.bindAnchors = function() {
         $( "a", this.container ).each( function( i,a ) {
-            if( $(a).parents(".transition-exclude").length == 0 ) $(a).on( "click", this.onAnchorClick.bind( this ) );
+            if( $(a).parents("."+this.excludeClass).length == 0 ) $(a).off("click").on( "click", this.onAnchorClick.bind( this ) );
         }.bind( this ));
     };
 
@@ -155,12 +163,10 @@ var Transition;
      */
     Transition.prototype.bindForms = function() {
         $( "form", this.container ).each( function( i,form ){
-			//if( $(form).parents(".transition-exclude").length == 0) {
-                console.log( "Binding form" );
-                console.info( form );
+			if( $(form).parents("."+this.excludeClass).length == 0) {
                 $( form ).attr("data-valid","valid");
                 $( form ).bind( "submit", this.onFormSubmit.bind( this ) );
-            //}
+            }
         }.bind( this ));
     };
 
@@ -194,16 +200,16 @@ var Transition;
 
     Transition.prototype.onFormSubmit = function( ev ) {
         ev.preventDefault();
-
         var $form = $(ev.delegateTarget);
 		if( $form.attr("data-valid") == "valid" ) {
-	        $.ajax({
+            $.ajax({
 	            url: $form.attr("action"),
 	            type: $form.attr("method"),
 	            data: $form.serialize(),
 	            dataType: 'json',
 	            beforeSend: this.onAnchorBeforeSend.bind( this ),
-	            complete: this.onAnchorComplete.bind( this )
+	            complete: this.onAnchorComplete.bind( this ),
+                error: function(err){ console.error( "AJAX: "+err ); }
 	        });
 		}
 
@@ -220,7 +226,6 @@ var Transition;
         this.newContent = null;
         this.canLoadNewContent = false;
         this.container.addClass( this.exitClass );
-        this._onLoadNextPage();
         this.timer = setTimeout( this.onAnchorDelayCompleted.bind( this ), this.exitLength );
     };
 
@@ -253,7 +258,14 @@ var Transition;
      * @return {void}
      */
     Transition.prototype.injectNewContent = function() {
-        if( this.newContent.attr("reload") != "full" ) {
+        if( this.newContent === undefined ) {
+            console.warn( "TransitionJS: Tried to follow an invalid link!" );
+            this.timer = setTimeout( this._onIntroCompleted.bind( this ), this.introLength );
+            this.bindEverything();
+            this.container.removeClass( this.exitClass );
+            this._onLoadNextPageCompleted();
+        }
+        else if( this.newContent.attr("reload") != "full" ) {
             this.container.empty();
             this.container.html( this.newContent.html() );
             this.timer = setTimeout( this._onIntroCompleted.bind( this ), this.introLength );
