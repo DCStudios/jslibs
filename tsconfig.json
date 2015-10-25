@@ -9,6 +9,7 @@
 		"sourceMap": true
 	},
 	"files": [
-		"ts/task.ts"
+		"ts/task.ts",
+		"ts/transitions.ts"
 	]
 }

@@ -1,298 +1,159 @@
-var DefineTransition;
-var Transition;
-
-( function() {
-
-    "use strict";
-
-    DefineTransition = function( containerID, options ) {
-
-        var container = $("#"+containerID );
-        var transition = new Transition( container, options );
-        container.data( "transition", transition );
-
-    };
-
-    Transition = function( container, options ) {
-
-        /**
-         * Reference to the container
-         * @type {jQuery}
-         */
-        this.container = container;
-
-        /**
-         * Timer used for animation timing
-         * @type {handle}
-         */
+/// <reference path="../typings/jquery/jquery.d.ts" />
+var Transition = (function () {
+    function Transition(containerID, option) {
+        this.container = containerID;
         this.timer = null;
-
-        /**
-         * The jquery object reprensenting the
-         * next page to be injected
-         * @type {jQuery}
-         */
         this.newContent = null;
-
-        /**
-         * Is the @newContent ready to be injected?
-         * @type {Boolean}
-         */
         this.canLoadNewContent = false;
-
-        /*
-            The <options> parameter can contain any of
-            the following parameters:
-
-            options = {
-                intro: 1000,
-                exit: 800,
-                class: 'is-exiting',
-                exclude: 'transition-exclude',
-                introCompleted: function(){},
-                exitCompleted: function(){},
-                loadNextPage: function(){},
-                loadCompleted: function(){}
-            }
-        */
-
-        /**
-         * The time to wait before assuming intro animation
-         * has completed
-         * @type {Number}
-         */
-        this.introLength = 0;
-        if( typeof options.intro !== "undefined" ) this.introLength = options.intro;
-
-        /**
-         * The time to wait before assuming exit animation
-         * has completed
-         * @type {Number}
-         */
-        this.exitLength = 0;
-        if( typeof options.exit !== "undefined" ) this.exitLength = options.exit;
-
-        /**
-         * The class to assign to the container when ready to
-         * animate the exit animation
-         * @type {String}
-         */
-        this.exitClass = "is-exiting";
-        if( typeof options.class !== "undefined" ) this.exitClass = options.class;
-
-        /**
-         * The class to ignore when binding anchors and forms
-         * @type {String}
-         */
-        this.excludeClass = "transition-exclude";
-        if( typeof options.exclude !== "undefined" ) this.excludeClass = options.exclude;
-
-        /**
-         * Called when intro animation completes
-         * @return {Void}
-         */
-        this._onIntroCompleted = (
-            typeof options.introCompleted === "undefined" ?
-            function(){} :
-            options.introCompleted
-        );
-
-        /**
-         * Called when exit animation completes
-         * @return {Void}
-         */
-        this._onExitCompleted = (
-            typeof options.exitCompleted === "undefined" ?
-            function(){} :
-            options.exitCompleted
-        );
-
-        /**
-         * Called when the next page is about to load,
-         * which also means the exit animation starts
-         * @return {Void}
-         */
-        this._onLoadNextPage = (
-            typeof options.loadNextPage === "undefined" ?
-            function(){} :
-            options.loadNextPage
-        );
-
-        /**
-         * Called when the newContent was injected,
-         * which also means the intro animation starts
-         * @return {Void}
-         */
-        this._onLoadNextPageCompleted = (
-            typeof options.loadCompleted === "undefined" ?
-            function(){} :
-            options.loadCompleted
-        );
-
-        // Start the intro timer
-        this.timer = setTimeout( this._onIntroCompleted, this.introLength );
-
-        // Bind all anchors and forms
+        this.introLength = option.intro;
+        this.exitLenth = option.exit;
+        this.exitClass = option.exitClass;
+        this.excludeClass = option.excludeClass;
+        this._onIntroCompleted = option.introCompleted;
+        this._onExitCompleted = option.exitCompleted;
+        this._onLoadNextPage = option.loadNextPage;
+        this._onLoadNextPageCompleted = option.loadCompleted;
+        this.initialize();
+    }
+    Transition.prototype.initialize = function () {
+        this.timer = setTimeout(this._onIntroCompleted, this.introLength);
         this.bindEverything();
-
     };
-
-    /**
-     * Bind all <a> and <form> inside the container
-     * @return {void}
-     */
-    Transition.prototype.bindEverything = function() {
+    Transition.prototype.fakeClick = function (evt) {
+        evt.preventDefault();
+    };
+    Transition.prototype.bindEverything = function () {
         this.bindAnchors();
         this.bindForms();
     };
-
-    /**
-     * Add a callback for all <a> in the container
-     * @return {void}
-     */
-    Transition.prototype.bindAnchors = function() {
-        $( "a", this.container ).each( function( i,a ) {
-            if( $(a).parents("."+this.excludeClass).length == 0 ) $(a).off("click").on( "click", this.onAnchorClick.bind( this ) );
-        }.bind( this ));
+    Transition.prototype.bindAnchors = function () {
+        $("a", this.container).each(this.doBindAnchor.bind(this));
     };
-
-    /**
-     * Add a callback for all forms in the container
-     * for their submit method
-     * @return {[type]} [description]
-     */
-    Transition.prototype.bindForms = function() {
-        $( "form", this.container ).each( function( i,form ){
-			if( $(form).parents("."+this.excludeClass).length == 0) {
-                $( form ).attr("data-valid","valid");
-                $( form ).bind( "submit", this.onFormSubmit.bind( this ) );
-            }
-        }.bind( this ));
+    Transition.prototype.doBindAnchor = function (index, a) {
+        if ($(a).parents("." + this.excludeClass).length == 0)
+            $(a).on("click", this.onAnchorClick.bind(this));
     };
-
-    /**
-     * Disable <a>
-     * @param  {ClickEvent} ev The click event
-     * @return {void}
-     */
-    Transition.prototype.fakeOnClick = function( ev ) {
-        ev.preventDefault();
+    Transition.prototype.bindForms = function () {
+        $("form", this.container).each(this.doBindForm.bind(this));
     };
-
-    /**
-     * Disable <a> and use an ajax call instead
-     * @param  {ClickEvent} ev The click event
-     * @return {void}
-     */
-    Transition.prototype.onAnchorClick = function( ev ) {
-        ev.preventDefault();
-
-        var a = $(ev.delegateTarget);
-        a.off( "click" );
-        a.on( "click", this.fakeOnClick );
+    Transition.prototype.doBindForm = function (index, form) {
+        var $form = $(form);
+        if ($form.parents("." + this.excludeClass).length == 0) {
+            $form.attr("data-valid", "valid");
+            $form.on("submit", this.onFormSubmit.bind(this));
+        }
+    };
+    Transition.prototype.onAnchorClick = function (evt) {
+        evt.preventDefault();
+        var $a = $(evt.delegateTarget);
+        $a.off("click");
+        $a.on("click", this.fakeClick);
         $.ajax({
-            url: a.attr("href"),
-            beforeSend: this.onAnchorBeforeSend.bind( this ),
-            complete: this.onAnchorComplete.bind( this )
+            url: $a.attr("href"),
+            beforeSend: this.onBindedBeforeSend.bind(this),
+            complete: this.onBindedComplete.bind(this),
         });
     };
-
-
-    Transition.prototype.onFormSubmit = function( ev ) {
-        ev.preventDefault();
-        var $form = $(ev.delegateTarget);
-		if( $form.attr("data-valid") == "valid" ) {
+    Transition.prototype.onFormSubmit = function (evt) {
+        evt.preventDefault();
+        var $form = $(evt.delegateTarget);
+        if ($form.attr("data-valid") == "valid") {
             $.ajax({
-	            url: $form.attr("action"),
-	            type: $form.attr("method"),
-	            data: $form.serialize(),
-	            dataType: 'json',
-	            beforeSend: this.onAnchorBeforeSend.bind( this ),
-	            complete: this.onAnchorComplete.bind( this ),
-                error: function(err){ console.error( "AJAX: "+err ); }
-	        });
-		}
-
+                url: $form.attr("action"),
+                type: $form.attr("method"),
+                data: $form.serialize(),
+                dataType: 'json',
+                beforeSend: this.onBindedBeforeSend.bind(this),
+                complete: this.onBindedComplete.bind(this)
+            });
+        }
         return false;
     };
-
-    /**
-     * Init exit animation and start loading newContent
-     * @param  {xhqr}   x The jQuery ajax object
-     * @param  {object} h The headers of the ajax
-     * @return {void}
-     */
-    Transition.prototype.onAnchorBeforeSend = function( x,h ) {
+    Transition.prototype.onBindedBeforeSend = function () {
         this.newContent = null;
         this.canLoadNewContent = false;
-        this.container.addClass( this.exitClass );
-        this.timer = setTimeout( this.onAnchorDelayCompleted.bind( this ), this.exitLength );
+        this.container.addClass(this.exitClass);
+        this.timer = setTimeout(this.onBindedDelayComplete.bind(this), this.exitLenth);
     };
-
-    /**
-     * Init exit animation and check if newContent is loaded,
-     * in which case it should be injected
-     * @param  {xhqr}   x The jQuery ajax object
-     * @param  {string} r The textStatus of the ajax response
-     * @return {void}
-     */
-    Transition.prototype.onAnchorComplete = function( x,r ) {
-        this.newContent = this.findIdInArray( $( x.responseText ), this.container.selector );
-        if( this.canLoadNewContent ) this.injectNewContent();
+    Transition.prototype.onBindedComplete = function (x) {
+        this.newContent = this.findIdInArray($(x.responseText), this.container.selector);
+        if (this.canLoadNewContent)
+            this.injectNewContent();
     };
-
-    /**
-     * Make newContent ready to be injected, and if
-     * it is loaded, inject it.
-     * @return {void}
-     */
-    Transition.prototype.onAnchorDelayCompleted = function() {
+    Transition.prototype.onBindedDelayComplete = function () {
         this.canLoadNewContent = true;
         this._onExitCompleted();
-        if( this.newContent !== null ) this.injectNewContent();
+        if (this.newContent !== null)
+            this.injectNewContent();
     };
-
-    /**
-     * Destroy current content, inject new content and bind anchors and forms
-     * from the new content.
-     * @return {void}
-     */
-    Transition.prototype.injectNewContent = function() {
-        if( this.newContent === undefined ) {
-            console.warn( "TransitionJS: Tried to follow an invalid link!" );
-            this.timer = setTimeout( this._onIntroCompleted.bind( this ), this.introLength );
+    Transition.prototype.injectNewContent = function () {
+        if (this.newContent === undefined) {
+            console.warn("TransitionJS: Tried to follow an invalid link!");
+            this.timer = setTimeout(this._onIntroCompleted, this.introLength);
             this.bindEverything();
-            this.container.removeClass( this.exitClass );
+            this.container.removeClass(this.exitClass);
             this._onLoadNextPageCompleted();
         }
-        else if( this.newContent.attr("reload") != "full" ) {
+        else if (this.newContent.attr("reload") != "full") {
             this.container.empty();
-            this.container.html( this.newContent.html() );
-            this.timer = setTimeout( this._onIntroCompleted.bind( this ), this.introLength );
+            this.container.html(this.newContent.html());
+            this.timer = setTimeout(this._onIntroCompleted.bind(this), this.introLength);
             this.bindEverything();
-    		$( ".transition-evalme", this.container ).each( function( i,e ) {
-    			jQuery.globalEval( $(e).html() );
-    			$(e).removeClass("transition-evalme");
-    		});
-            this.container.removeClass( this.exitClass );
+            $(".transition-evalme", this.container).each(this.evaluateRequestedScripts);
+            this.container.removeClass(this.exitClass);
             this._onLoadNextPageCompleted();
         }
-        else location.reload();
+        else
+            location.reload();
     };
-
-    /**
-     * Find an element with the specified id in the jquery list
-     * of elements returned from an ajax response
-     * @param  {jQueryElementList}  array   The list of elements to look into
-     * @param  {string}             lookup  The id to check against
-     * @return {jQuery}                     The jquery element found
-     */
-    Transition.prototype.findIdInArray = function( array, lookup ) {
-        var i=0;
-        lookup = lookup.replace( '#', '');
-        for( i=0; i<array.length; i++ ) {
-            if( $(array[i]).attr("id") == lookup ) return $(array[i]);
+    Transition.prototype.evaluateRequestedScripts = function (index, script) {
+        $.globalEval($(script).html());
+        $(script).removeClass("transition-evalme");
+    };
+    Transition.prototype.findIdInArray = function (array, lookup) {
+        var i;
+        lookup = lookup.replace("#", "");
+        for (i = 0; i < array.length; i++) {
+            if ($(array[i]).attr("id") == lookup)
+                return $(array[i]);
         }
     };
-
+    return Transition;
 })();
+var TransitionOptions = (function () {
+    function TransitionOptions() {
+        this.intro = 0;
+        this.exit = 0;
+        this.exitClass = "is-exiting";
+        this.excludeClass = "transition-exclude";
+        this.introCompleted = this.emptyFunction;
+        this.exitCompleted = this.emptyFunction;
+        this.loadNextPage = this.emptyFunction;
+        this.loadCompleted = this.emptyFunction;
+    }
+    TransitionOptions.prototype.emptyFunction = function () { };
+    return TransitionOptions;
+})();
+function DefineTransition(containerID, options) {
+    var container = $("#" + containerID);
+    var realOptions = new TransitionOptions();
+    if (typeof options.intro !== "undefined")
+        realOptions.intro = options.intro;
+    if (typeof options.exit !== "undefined")
+        realOptions.exit = options.exit;
+    if (typeof options.exitClass !== "undefined")
+        realOptions.exitClass = options.exitClass;
+    if (typeof options.excludeClass !== "undefined")
+        realOptions.excludeClass = options.excludeClass;
+    if (typeof options.introCompleted !== "undefined")
+        realOptions.introCompleted = options.introCompleted;
+    if (typeof options.exitCompleted !== "undefined")
+        realOptions.exitCompleted = options.exitCompleted;
+    if (typeof options.loadNextPage !== "undefined")
+        realOptions.loadNextPage = options.loadNextPage;
+    if (typeof options.loadCompleted !== "undefined")
+        realOptions.loadCompleted = options.loadCompleted;
+    var transition = new Transition(container, realOptions);
+    container.data("transition", transition);
+}
+//# sourceMappingURL=transitions.js.map

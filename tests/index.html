@@ -5,13 +5,10 @@
         <meta charset="UTF-8" />
 
         <link rel="stylesheet" href="css/reset.css" type="text/css" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/jquery-ui.css">
-        <!--<link rel="stylesheet" href="css/jquery-ui.min.css">-->
-		<link rel="stylesheet" href="css/jquery-ui.structure.min.css">
-        <!--<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="css/jquery-ui.css" />
+		<link rel="stylesheet" href="css/jquery-ui.structure.min.css" />
         <link rel="stylesheet" href="css/styles.css" type="text/css" />
-		<!-- <link rel="stylesheet" href="css/jquery-ui.theme.min.css"> -->
         <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
         <script type="text/javascript" src="js/json2.min.js"></script>
@@ -24,13 +21,14 @@
             <div id="page">
                 <h1>Task.js</h1>
                 <p>
-                    Here is a demo of Task.js<br>
-                    Task.js is an easy way to track TODOs and NOTEs.<br>
+                    Here is a <a href="index.html">demo</a> of Task.js<br />
+                    Task.js is an easy way to track TODOs and NOTEs.<br />
                     It works by moving 'tasks' from 'tasklists'.
                     Of course, you can add, edit and remove tasks!
                 </p>
 				<div id="tasks" class="taskcontainer">
                 </div>
+                <script>var taskManager = new TaskContainer( $(".taskcontainer") );</script>
             </div>
 
         </div>
@@ -39,7 +37,7 @@
             DefineTransition( "transition-container", {
                 "intro": 800,
                 "exit": 800,
-                "class": "is-exiting",
+                "exitClass": "is-exiting",
                 "introCompleted": function() { console.log( "Intro has completed!" ); },
                 "exitCompleted": function() { console.log( "Exit has completed!" ); },
                 "loadNextPage": function() {
@@ -48,10 +46,6 @@
                 },
                 "loadCompleted": function(){ console.log( "Load completed!" ); }
             });
-
-            //DefineTask( ".taskcontainer" );
-
-            var taskManager = new TaskContainer( $(".taskcontainer") );
         </script>
     </body>
 </html>

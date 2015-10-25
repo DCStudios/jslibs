@@ -1,3 +1,5 @@
+/// <reference path="../typings/jquery/jquery.d.ts" />
+/// <reference path="../typings/jqueryui/jqueryui.d.ts" />
 var TaskContainer = (function () {
     function TaskContainer(sourceElement) {
         this.container = sourceElement;
