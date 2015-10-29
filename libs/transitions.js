@@ -1,4 +1,3 @@
-/// <reference path="../typings/jquery/jquery.d.ts" />
 var Transition = (function () {
     function Transition(containerID, option) {
         this.container = containerID;
@@ -14,10 +13,22 @@ var Transition = (function () {
         this._onLoadNextPage = option.loadNextPage;
         this._onLoadNextPageCompleted = option.loadCompleted;
         this.initialize();
+        this.makeTransitionPublic();
     }
+    Transition.prototype.Goto = function (url) {
+        $.ajax({
+            url: url,
+            beforeSend: this.onBindedBeforeSend.bind(this),
+            complete: this.onBindedComplete.bind(this),
+        });
+    };
     Transition.prototype.initialize = function () {
         this.timer = setTimeout(this._onIntroCompleted, this.introLength);
         this.bindEverything();
+        $(".transition-evalme", this.container).each(this.evaluateRequestedScripts);
+    };
+    Transition.prototype.makeTransitionPublic = function () {
+        this.container.data("transition", this);
     };
     Transition.prototype.fakeClick = function (evt) {
         evt.preventDefault();
@@ -107,6 +118,7 @@ var Transition = (function () {
             location.reload();
     };
     Transition.prototype.evaluateRequestedScripts = function (index, script) {
+        console.log(script);
         $.globalEval($(script).html());
         $(script).removeClass("transition-evalme");
     };
