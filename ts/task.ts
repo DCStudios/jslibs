@@ -3,13 +3,13 @@
 
 /*
 	ImDone stuff:
-	#COMPLETED:40 Fix the connectWith with .taskList
-	#COMPLETED:30 Add 'Add','Edit','Remove' options to .taskList
-	#COMPLETED:20 Add 'Remove' otpions to .task
+	#COMPLETED:50 Fix the connectWith with .taskList
+	#COMPLETED:40 Add 'Add','Edit','Remove' options to .taskList
+	#COMPLETED:30 Add 'Remove' otpions to .task
 	#TODO:20 Save configuration to taskID.json
 	#TODO:30 Load configuration when DefineTask is called
-	#COMPLETED:0 Rewrite Task.js to be object oriented +Typescript
-	#COMPLETED:10 Create and add a Task in a TaskList
+	#COMPLETED:10 Rewrite Task.js to be object oriented +Typescript
+	#COMPLETED:20 Create and add a Task in a TaskList
 	#TODO:0 Add tags to Task
 	#TODO:10 Add READONLY support to task.js +UserRights
 */

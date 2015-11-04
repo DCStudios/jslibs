@@ -1,7 +1,7 @@
 /// <reference path="../typings/jquery/jquery.d.ts" />
 
 /*
-	#DOING:0 Add a manual transition trigger to Transition.js
+	#COMPLETED:0 Add a manual transition trigger to Transition.js
 */
 
 class Transition {
