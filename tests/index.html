@@ -9,11 +9,13 @@
         <link rel="stylesheet" href="css/jquery-ui.css" />
 		<link rel="stylesheet" href="css/jquery-ui.structure.min.css" />
         <link rel="stylesheet" href="css/styles.css" type="text/css" />
+		<link rel="stylesheet" href="css/controls/combobox.css">
         <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
         <script type="text/javascript" src="js/json2.min.js"></script>
         <script type="text/javascript" src="../libs/transitions.js"></script>
 		<script type="text/javascript" src="../libs/task.js"></script>
+		<script type="text/javascript" src="../libs/controls/combobox.js"></script>
     </head>
     <body>
         <div id="transition-container">
@@ -29,6 +31,35 @@
 				<div id="tasks" class="taskcontainer">
                 </div>
                 <script>var taskManager = new TaskContainer( $(".taskcontainer") );</script>
+
+				<div class="c-combobox">
+					<span>Select an Option</span>
+					<ul>
+						<li>Option 1</li>
+						<li>Option 2</li>
+						<li>Option 3</li>
+						<li>Option 4</li>
+						<li>Option 5</li>
+					</ul>
+				</div>
+
+				<div class="c-combobox">
+					<span>Select an Option</span>
+					<ul>
+						<li>Option 1</li>
+						<li>Option 2</li>
+						<li>Option 3</li>
+						<li>Option 4</li>
+						<li>Option 5</li>
+					</ul>
+				</div>
+				<script>
+					new Controls.Combobox($($(".c-combobox")[0]));
+					new Controls.Combobox($($(".c-combobox")[1]));
+
+					$($(".c-combobox")[0]).on("changed",function(e,v){ console.log( "Combobox 1: "+v );});
+					$($(".c-combobox")[1]).on("changed",function(e,v){ console.log( "Combobox 2: "+v );});
+				</script>
             </div>
 
 			<div class="transition-evalme invisible">

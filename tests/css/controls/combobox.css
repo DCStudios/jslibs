@@ -1,0 +1,93 @@
+/* The combobox itself */
+.c-combobox {
+	position: relative;
+	background: #CCC;
+	color: #000;
+	padding: 8px 16px;
+	padding-bottom: 0;
+	padding-right: 0;
+	border: 1px solid black;
+	border-top-left-radius: 8px;
+	border-bottom-right-radius: 8px;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	overflow: hidden;
+}
+.c-combobox.open {
+	padding-bottom: 8px;
+	padding-right: 16px;
+}
+
+/* The little arrow in the combobox */
+.c-combobox::after {
+	content: ' ';
+	position: absolute;
+	right: 16px;
+	top: 12px;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 10px 7px 0 7px;
+	border-color: #555 transparent transparent transparent;
+	pointer-events: none;
+}
+.c-combobox.open::after {
+	content: ' ';
+	position: absolute;
+	right: 16px;
+	top: 12px;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 0 7px 10px 7px;
+	border-color: transparent transparent #555 transparent;
+	pointer-events: none;
+}
+
+/* The text displayed on the combobox */
+.c-combobox-text {
+	display: block;
+	margin-left: -16px;
+	margin-top: -8px;
+	padding-left: 32px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+/* The animated list of the combobox */
+.c-combobox-list {
+	position: relative;
+	padding-top: 0;
+	pointer-events: none;
+	overflow: hidden;
+
+	-webkit-transition: padding-top 250ms;
+	-o-transition: padding-top 250ms;
+	transition: padding-top 250ms;
+}
+.c-combobox.open .c-combobox-list {
+	padding-top: 8px;
+	pointer-events: auto;
+}
+
+/* The seperator between the displayed text and the items of the list */
+.c-combobox .c-combobox-list::after {
+	content: " ";
+	position: absolute;
+	top: 0px;
+	left: 0;
+	width: 100%;
+	border-bottom: 1px solid #888;
+}
+
+/* An item from the combobox's list */
+.c-combobox-item {
+	padding: 8px 16px;
+}
+.c-combobox-item:hover {
+	background: #AAA;
+}

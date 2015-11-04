@@ -10,6 +10,7 @@
 	},
 	"files": [
 		"ts/task.ts",
-		"ts/transitions.ts"
+		"ts/transitions.ts",
+		"ts/controls/combobox.ts"
 	]
 }
