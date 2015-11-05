@@ -13,3 +13,8 @@ JsLibs is a set of javascript libraries I made and use in my projects.
 	&nbsp;&nbsp;&nbsp;&nbsp;Simple library that transforms a div into a full task manager.
 	Task are placed inside lists, and can be dragged from one list to another.
 	Useful to keep up with tasks and manage what's next to do and what is left to do after!
+
+**Controls**:<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;Group of javascript controls to boost page effiency.
+	- _Combobox_: A dropdown of options, triggers the 'changed' event.
+	- _Accordeon_: A simple open/close toggler.
