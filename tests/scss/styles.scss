@@ -64,6 +64,16 @@ body {
             padding: 64px;
             animation: fadeIn 800ms ease-in-out;
 
+			.square {
+				background: blue;
+				width: 128px;
+				height: 0px;
+
+				transition: height 250ms ease-in-out;
+
+				&.open { height: 128px;}
+			}
+
 			.taskcontainer {
                 position: relative;
                 background: #333;

@@ -16,6 +16,7 @@
         <script type="text/javascript" src="../libs/transitions.js"></script>
 		<script type="text/javascript" src="../libs/task.js"></script>
 		<script type="text/javascript" src="../libs/controls/combobox.js"></script>
+		<script type="text/javascript" src="../libs/controls/accordeon.js"></script>
     </head>
     <body>
         <div id="transition-container">
@@ -26,11 +27,14 @@
                     Here is a <a id="link" href="index.html">demo</a> of Task.js<br />
                     Task.js is an easy way to track TODOs and NOTEs.<br />
                     It works by moving 'tasks' from 'tasklists'.
-                    Of course, you can add, edit and remove tasks!
+                    Of course, you can add, edit and remove tasks!<br/><br/>
+					<a href="javascript:void(0);" id="acco" data-control=".square">Toggle</a>
                 </p>
 				<div id="tasks" class="taskcontainer">
                 </div>
                 <script>var taskManager = new TaskContainer( $(".taskcontainer") );</script>
+
+				<div class="square"></div>
 
 				<div class="c-combobox">
 					<span>Select an Option</span>
@@ -85,6 +89,8 @@
                 },
                 "loadCompleted": function(){ console.log( "Load completed!" ); }
             });
+
+			new Controls.Accordeon($("#acco"));
         </script>
     </body>
 </html>

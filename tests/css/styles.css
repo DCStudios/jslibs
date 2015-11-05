@@ -53,6 +53,13 @@ body {
       background: #111;
       padding: 64px;
       animation: fadeIn 800ms ease-in-out; }
+      body #transition-container #page .square {
+        background: blue;
+        width: 128px;
+        height: 0px;
+        transition: height 250ms ease-in-out; }
+        body #transition-container #page .square.open {
+          height: 128px; }
       body #transition-container #page .taskcontainer {
         position: relative;
         background: #333;

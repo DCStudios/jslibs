@@ -11,6 +11,7 @@
 	"files": [
 		"ts/task.ts",
 		"ts/transitions.ts",
-		"ts/controls/combobox.ts"
+		"ts/controls/combobox.ts",
+		"ts/controls/accordeon.ts"
 	]
 }
