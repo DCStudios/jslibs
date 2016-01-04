@@ -1,0 +1,79 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0; }
+
+body, html {
+  width: 100%;
+  height: 100%; }
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px; }
+
+::-webkit-scrollbar-button {
+  width: 6px;
+  height: 6px;
+  background: #282828; }
+  ::-webkit-scrollbar-button:hover {
+    background: #404040; }
+  ::-webkit-scrollbar-button:active {
+    background: #080808; }
+
+::-webkit-scrollbar-thumb {
+  background: #303030;
+  border: 0px none #353535;
+  border-radius: 0px; }
+
+::-webkit-scrollbar-thumb:hover {
+  background: #404040; }
+
+::-webkit-scrollbar-thumb:active {
+  background: #646464; }
+
+::-webkit-scrollbar-track {
+  background: #000000;
+  border: 0px none #353535;
+  border-radius: 0px; }
+
+::-webkit-scrollbar-track:hover {
+  background: #000000; }
+
+::-webkit-scrollbar-track:active {
+  background: #141414; }
+
+::-webkit-scrollbar-corner {
+  background: transparent; }
+
+body {
+  background: #181818;
+  color: #AAAAAA;
+  font-family: "Ubuntu", sans-serif; }
+  body #header {
+    background: #383838;
+    height: 64px; }
+    body #header h1 {
+      line-height: 64px;
+      margin-left: 16px;
+      font-size: 20pt; }
+  body #content {
+    position: relative;
+    height: -webkit-calc(100% - 96px);
+    height: -moz-calc(100% - 96px);
+    height: -ms-calc(100% - 96px);
+    height: -o-calc(100% - 96px);
+    height: calc(100% - 96px);
+    overflow: hidden;
+    overflow-y: auto; }
+    body #content .header {
+      background: #404080; }
+    body #content .button {
+      background: #404080;
+      border: 1px solid #AAAAAA;
+      padding: 8px 16px;
+      outline: none; }
+  body #footer {
+    background: #383838;
+    height: 32px; }
+
+/*# sourceMappingURL=test_tabs.css.map */

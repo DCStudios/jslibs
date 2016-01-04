@@ -1,0 +1,7 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+	"editor.fontFamily": "Ubuntu Mono",
+	"editor.insertSpaces": false,
+	"editor.wrappingColumn": 120,
+	"editor.formatOnType": true
+}

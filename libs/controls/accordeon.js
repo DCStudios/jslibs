@@ -25,7 +25,7 @@ var Controls;
             this.childs.toggleClass("open");
         };
         return Accordeon;
-    })();
+    }());
     Controls.Accordeon = Accordeon;
 })(Controls || (Controls = {}));
 //# sourceMappingURL=accordeon.js.map

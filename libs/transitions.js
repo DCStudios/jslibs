@@ -131,7 +131,7 @@ var Transition = (function () {
         }
     };
     return Transition;
-})();
+}());
 var TransitionOptions = (function () {
     function TransitionOptions() {
         this.intro = 0;
@@ -145,7 +145,7 @@ var TransitionOptions = (function () {
     }
     TransitionOptions.prototype.emptyFunction = function () { };
     return TransitionOptions;
-})();
+}());
 function DefineTransition(containerID, options) {
     var container = $("#" + containerID);
     var realOptions = new TransitionOptions();

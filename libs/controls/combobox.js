@@ -68,7 +68,7 @@ var Controls;
             this.list.animate({ height: 0 }, 250);
         };
         return Combobox;
-    })();
+    }());
     Controls.Combobox = Combobox;
 })(Controls || (Controls = {}));
 //# sourceMappingURL=combobox.js.map

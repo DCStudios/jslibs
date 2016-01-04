@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Tabs Test</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta charset="UTF-8">
+
+		<link rel="stylesheet" href="css/test_tabs.css">
+		<link rel="stylesheet" href="css/controls/tabs.css">
+	</head>
+	<body>
+		<div id="header">
+			<h1>JsLibs - Controls.Tab</h1>
+		</div>
+		<div id="content">
+			<div class="tab-wrapper">
+				<div class="tabs">
+					<span>Tab 1</span>
+					<span>My long but working tab</span>
+					<span>Tab 3</span>
+					<div>Content of tab 1</div>
+					<div>Content of My long but working tab</div>
+					<div>Content of tab 3</div>
+				</div>
+			</div>
+		</div>
+		<div id="footer"></div>
+
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="../libs/controls/tabs.js"></script>
+		<script>
+			var tabs = new Controls.Tab( $(".tabs") );
+		</script>
+	</body>
+</html>

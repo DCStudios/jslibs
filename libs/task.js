@@ -69,7 +69,7 @@ var TaskContainer = (function () {
         new TaskList(this.tasklistForm.find(".tasklistName").val()).Handle().insertBefore(this.dummy);
     };
     return TaskContainer;
-})();
+}());
 var TaskList = (function () {
     function TaskList(category) {
         this.tasklist = null;
@@ -227,7 +227,7 @@ var TaskList = (function () {
         return this.tasklist;
     };
     return TaskList;
-})();
+}());
 var Task = (function () {
     function Task(name, content, tags) {
         this.buildSelf(content);
@@ -261,5 +261,5 @@ var Task = (function () {
         return this.task;
     };
     return Task;
-})();
+}());
 //# sourceMappingURL=task.js.map
